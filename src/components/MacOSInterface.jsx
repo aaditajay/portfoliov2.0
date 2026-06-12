@@ -1203,8 +1203,29 @@ export default function MacOSInterface({ onExit }) {
       />
 
       {/* Battery Percentage Widget (Top-Left) */}
-      <div className="battery-widget" style={{ position: 'relative' }}>
-        {/* Volumetric Liquid Shadow Overlay */}
+      {/* Battery Percentage Widget (Top-Left) */}
+      <div 
+        className="battery-widget" 
+        style={{ 
+          position: 'absolute', 
+          top: '52px', 
+          left: '24px', 
+          width: '140px', 
+          height: '140px', 
+          padding: '16px', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'flex-start', 
+          justifyContent: 'space-between', 
+          boxSizing: 'border-box', 
+          border: '1.2px solid rgba(255, 255, 255, 0.25)', 
+          borderRadius: '28px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)',
+          overflow: 'hidden',
+          zIndex: 5
+        }}
+      >
+        {/* Backdrop Filter Layer */}
         <div 
           style={{
             position: 'absolute',
@@ -1212,64 +1233,41 @@ export default function MacOSInterface({ onExit }) {
             left: 0,
             width: '100%',
             height: '100%',
-            borderRadius: '28px',
-            boxShadow: `
-              0 0 8px rgba(0,0,0,0.03),
-              0 2px 6px rgba(0,0,0,0.08),
-              inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
-              inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
-              inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
-              inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
-              inset 0 0 6px 6px rgba(255,255,255,0.12),
-              inset 0 0 2px 2px rgba(255,255,255,0.06),
-              0 0 12px rgba(0,0,0,0.15)
-            `,
-            zIndex: 0,
-            pointerEvents: 'none'
-          }}
-        />
-        {/* Backdrop Filter Distortion Layer */}
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            borderRadius: '28px',
-            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.15) 50.5%, rgba(255, 255, 255, 0.2) 100%)',
-            backdropFilter: 'url("#container-glass") blur(10px)',
-            WebkitBackdropFilter: 'url("#container-glass") blur(10px)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.1) 100%)',
+            backdropFilter: 'url("#container-glass") blur(20px)',
+            WebkitBackdropFilter: 'url("#container-glass") blur(20px)',
             zIndex: -1,
             pointerEvents: 'none'
           }}
         />
-        {/* Content Wrapper */}
-        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-          <svg width="46" height="46" viewBox="0 0 60 60" style={{ display: 'block', position: 'relative', zIndex: 10 }}>
-            {/* Background circle */}
-            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(0, 0, 0, 0.1)" strokeWidth="4.5" />
-            {/* Green battery circle representing 73% progress */}
-            <circle 
-              cx="30" 
-              cy="30" 
-              r="24" 
-              fill="none" 
-              stroke="#10b981" 
-              strokeWidth="4.5" 
-              strokeDasharray="150.8" 
-              strokeDashoffset="40.7" 
-              strokeLinecap="round" 
-              transform="rotate(-90 30 30)" 
-            />
-            {/* Laptop vector inside circle */}
-            <path 
-              d="M18 36 L42 36 L42 21 L18 21 Z M13 37 L47 37 L47 40 L13 40 Z" 
-              fill="rgba(0, 0, 0, 0.75)" 
-            />
-          </svg>
-          <span className="battery-percentage" style={{ margin: 0, marginTop: '8px', zIndex: 10, color: 'rgba(0, 0, 0, 0.8)', textShadow: 'none' }}>73%</span>
-        </div>
+        {/* Progress Circle & Icon */}
+        <svg width="48" height="48" viewBox="0 0 60 60" style={{ display: 'block', position: 'relative', zIndex: 10, margin: '-2px 0 0 -2px' }}>
+          {/* Background circle */}
+          <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="4.5" />
+          {/* Green battery circle representing 73% progress */}
+          <circle 
+            cx="30" 
+            cy="30" 
+            r="24" 
+            fill="none" 
+            stroke="#30d158" 
+            strokeWidth="4.5" 
+            strokeDasharray="150.8" 
+            strokeDashoffset="40.7" 
+            strokeLinecap="round" 
+            transform="rotate(-90 30 30)" 
+          />
+          {/* Laptop outline vector inside circle */}
+          <path 
+            d="M23 21h14a2 2 0 0 1 2 2v8a1 1 0 0 1-1 1H22a1 1 0 0 1-1-1v-8a2 2 0 0 1 2-2zm-6 12h26" 
+            stroke="#ffffff" 
+            strokeWidth="1.8" 
+            fill="none" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+          />
+        </svg>
+        <span style={{ margin: 0, zIndex: 10, color: '#ffffff', fontSize: '2.2rem', fontWeight: '500', lineHeight: 1, fontFamily: 'var(--font-sans)' }}>73%</span>
       </div>
 
       {/* Horizontal Folders Grid (Centered Upper Desktop) */}
