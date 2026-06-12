@@ -256,7 +256,7 @@ const MacOSDock = ({
           width: '100%',
           height: '100%',
           borderRadius: `${Math.max(12, baseIconSize * 0.4)}px`,
-          background: 'linear-gradient(180deg, rgba(30, 30, 35, 0.75) 0%, rgba(25, 25, 30, 0.7) 50%, rgba(15, 15, 20, 0.65) 50.5%, rgba(20, 20, 25, 0.68) 100%)',
+          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.15) 50.5%, rgba(255, 255, 255, 0.2) 100%)',
           backdropFilter: 'url("#container-glass") blur(10px)',
           WebkitBackdropFilter: 'url("#container-glass") blur(10px)',
           zIndex: -1,

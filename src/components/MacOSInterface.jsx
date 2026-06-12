@@ -1237,7 +1237,7 @@ export default function MacOSInterface({ onExit }) {
             width: '100%',
             height: '100%',
             borderRadius: '28px',
-            background: 'linear-gradient(135deg, rgba(30, 30, 35, 0.75) 0%, rgba(25, 25, 30, 0.7) 50%, rgba(15, 15, 20, 0.65) 50.5%, rgba(20, 20, 25, 0.68) 100%)',
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0.15) 50.5%, rgba(255, 255, 255, 0.2) 100%)',
             backdropFilter: 'url("#container-glass") blur(10px)',
             WebkitBackdropFilter: 'url("#container-glass") blur(10px)',
             zIndex: -1,
@@ -1248,28 +1248,27 @@ export default function MacOSInterface({ onExit }) {
         <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="46" height="46" viewBox="0 0 60 60" style={{ display: 'block', position: 'relative', zIndex: 10 }}>
             {/* Background circle */}
-            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="4.5" />
-            {/* Green battery circle representing 87% progress */}
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(0, 0, 0, 0.1)" strokeWidth="4.5" />
+            {/* Green battery circle representing 73% progress */}
             <circle 
               cx="30" 
               cy="30" 
               r="24" 
               fill="none" 
-              stroke="#34d399" 
+              stroke="#10b981" 
               strokeWidth="4.5" 
               strokeDasharray="150.8" 
-              strokeDashoffset="19.6" 
+              strokeDashoffset="40.7" 
               strokeLinecap="round" 
               transform="rotate(-90 30 30)" 
             />
             {/* Laptop vector inside circle */}
             <path 
               d="M21 34 L39 34 L39 23 L21 23 Z M17 35 L43 35 L43 37 L17 37 Z" 
-              fill="white" 
-              opacity="0.9" 
+              fill="rgba(0, 0, 0, 0.75)" 
             />
           </svg>
-          <span className="battery-percentage" style={{ margin: 0, marginTop: '8px', zIndex: 10 }}>87%</span>
+          <span className="battery-percentage" style={{ margin: 0, marginTop: '8px', zIndex: 10, color: 'rgba(0, 0, 0, 0.8)', textShadow: 'none' }}>73%</span>
         </div>
       </div>
 
