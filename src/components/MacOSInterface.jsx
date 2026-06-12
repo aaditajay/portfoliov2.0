@@ -1264,7 +1264,7 @@ export default function MacOSInterface({ onExit }) {
             />
             {/* Laptop vector inside circle */}
             <path 
-              d="M21 34 L39 34 L39 23 L21 23 Z M17 35 L43 35 L43 37 L17 37 Z" 
+              d="M18 36 L42 36 L42 21 L18 21 Z M13 37 L47 37 L47 40 L13 40 Z" 
               fill="rgba(0, 0, 0, 0.75)" 
             />
           </svg>

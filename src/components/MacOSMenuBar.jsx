@@ -389,10 +389,10 @@ const MacOSMenuBar = ({
         className={`mac-menubar ${className}`}
         style={{
           height: '28px',
-          background: 'rgba(255, 255, 255, 0.22)',
-          backdropFilter: 'blur(25px)',
-          WebkitBackdropFilter: 'blur(25px)',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+          background: 'transparent',
+          backdropFilter: 'none',
+          WebkitBackdropFilter: 'none',
+          borderBottom: 'none',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -401,7 +401,7 @@ const MacOSMenuBar = ({
           color: '#fff',
           fontFamily: 'var(--font-sans)',
           fontWeight: 500,
-          boxShadow: '0 1px 8px rgba(0,0,0,0.05)'
+          boxShadow: 'none'
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '18px' }}>
