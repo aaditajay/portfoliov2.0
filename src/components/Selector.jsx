@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import './Selector.css';
@@ -252,8 +252,29 @@ const INTERFACES = [
 ];
 
 export default function Selector({ onSelectInterface }) {
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleCardClick = (id) => {
+    setSelectedId(id);
+    setTimeout(() => {
+      onSelectInterface(id);
+    }, 450);
+  };
+
+  const isAnySelected = selectedId !== null;
+
   return (
-    <div className="selector-root">
+    <motion.div 
+      className="selector-root"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ 
+        opacity: 0, 
+        scale: 1.05,
+        filter: 'blur(8px)',
+        transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } 
+      }}
+    >
       <SpiralBackground />
       <GlassFilter />
 
@@ -261,8 +282,15 @@ export default function Selector({ onSelectInterface }) {
         <motion.h1
           className="selector-heading"
           initial={{ opacity: 0, y: -24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+          animate={isAnySelected 
+            ? { opacity: 0, y: -16, scale: 0.95 } 
+            : { opacity: 1, y: 0, scale: 1 }
+          }
+          transition={{ 
+            duration: isAnySelected ? 0.35 : 1, 
+            delay: isAnySelected ? 0 : 0.3, 
+            ease: [0.25, 0.4, 0.25, 1] 
+          }}
         >
           Choose Your Interface
         </motion.h1>
@@ -273,22 +301,35 @@ export default function Selector({ onSelectInterface }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
         >
-          {INTERFACES.map((iface) => (
-            <div key={iface.id} className="selector-card">
-              <LiquidGlassButton
-                onClick={() => onSelectInterface(iface.id)}
-                disabled={iface.locked}
+          {INTERFACES.map((iface) => {
+            const isSelected = selectedId === iface.id;
+            return (
+              <motion.div 
+                key={iface.id} 
+                className="selector-card"
+                animate={isAnySelected
+                  ? (isSelected 
+                      ? { scale: 1.15, opacity: 1, y: -12 } 
+                      : { scale: 0.82, opacity: 0, filter: 'blur(6px)', y: 12, pointerEvents: 'none' })
+                  : { scale: 1, opacity: 1, y: 0 }
+                }
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               >
-                <img src={iface.src} alt={iface.alt} className="interface-logo" />
-                {iface.locked && <span className="lock-badge">Soon</span>}
-              </LiquidGlassButton>
-              <span className={`interface-label ${iface.labelClass}`}>
-                {iface.label}
-              </span>
-            </div>
-          ))}
+                <LiquidGlassButton
+                  onClick={() => handleCardClick(iface.id)}
+                  disabled={iface.locked || isAnySelected}
+                >
+                  <img src={iface.src} alt={iface.alt} className="interface-logo" />
+                  {iface.locked && <span className="lock-badge">Soon</span>}
+                </LiquidGlassButton>
+                <span className={`interface-label ${iface.labelClass}`}>
+                  {iface.label}
+                </span>
+              </motion.div>
+            );
+          })}
         </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

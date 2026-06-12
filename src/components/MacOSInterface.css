@@ -110,7 +110,13 @@
   background: var(--mac-glass-bg);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.mac-window.transitioning-layout {
+  transition: top 0.38s cubic-bezier(0.25, 1, 0.5, 1),
+              left 0.38s cubic-bezier(0.25, 1, 0.5, 1),
+              width 0.38s cubic-bezier(0.25, 1, 0.5, 1),
+              height 0.38s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .mac-window.active {

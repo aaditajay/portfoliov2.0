@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { portfolioData } from '../data/portfolioData';
 import './TerminalInterface.css';
 
@@ -471,7 +472,15 @@ export default function TerminalInterface({ onExit }) {
   };
 
   return (
-    <div className="terminal-container" onClick={handleTerminalClick}>
+    <motion.div 
+      className="terminal-container" 
+      onClick={handleTerminalClick}
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 1.04, filter: 'blur(5px)' }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      style={{ width: '100vw', height: '100vh', overflow: 'hidden', position: 'relative' }}
+    >
       <div className="terminal-scanline" />
       
       {/* Top Header Bar */}
@@ -555,6 +564,6 @@ export default function TerminalInterface({ onExit }) {
           </div>
         </>
       )}
-    </div>
+    </motion.div>
   );
 }

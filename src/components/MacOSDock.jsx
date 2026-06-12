@@ -174,8 +174,7 @@ const MacOSDock = ({
       element.style.transform = 'translateY(0px)';
     }, 150);
   };
-
-  const handleAppClick = (appId, index) => {
+  const handleAppClick = (appId, index, e) => {
     if (iconRefs.current[index]) {
       if (typeof window !== 'undefined' && window.gsap) {
         const gsap = window.gsap;
@@ -193,9 +192,8 @@ const MacOSDock = ({
         createBounceAnimation(iconRefs.current[index]);
       }
     }
-    onAppClick(appId);
+    onAppClick(appId, e);
   };
-
   const contentWidth = currentPositions.length > 0 
     ? Math.max(...currentPositions.map((pos, index) => 
         pos + (baseIconSize * currentScales[index]) / 2
@@ -282,7 +280,7 @@ const MacOSDock = ({
               ref={(el) => { iconRefs.current[index] = el; }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              onClick={() => handleAppClick(app.id, index)}
+              onClick={(e) => handleAppClick(app.id, index, e)}
               style={{
                 position: 'absolute',
                 left: `${position - scaledSize / 2}px`,

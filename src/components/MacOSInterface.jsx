@@ -489,6 +489,7 @@ export default function MacOSInterface({ onExit }) {
   // Drag state
   const [draggingId, setDraggingId] = useState(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [transitioningLayoutIds, setTransitioningLayoutIds] = useState(new Set());
 
   // 1. Drag handlers mouse effect
   useEffect(() => {
@@ -617,7 +618,14 @@ export default function MacOSInterface({ onExit }) {
     if (openWindows.some(w => w.id === winSpec.id)) {
       // If already open, unminimize and navigate if needed
       setOpenWindows(prev => prev.map(w => 
-        w.id === winSpec.id ? { ...w, isMinimized: false } : w
+        w.id === winSpec.id 
+          ? { 
+              ...w, 
+              isMinimized: false,
+              originX: winSpec.originX !== undefined ? winSpec.originX : w.originX,
+              originY: winSpec.originY !== undefined ? winSpec.originY : w.originY
+            } 
+          : w
       ));
       if (winSpec.appName === 'Finder' && winSpec.folderKey) {
         navigateFinder(winSpec.id, winSpec.folderKey, winSpec.title);
@@ -664,9 +672,21 @@ export default function MacOSInterface({ onExit }) {
 
   const toggleMaximize = (id, e) => {
     if (e) e.stopPropagation();
+    setTransitioningLayoutIds(prev => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
     setOpenWindows(prev => prev.map(w => 
       w.id === id ? { ...w, isMaximized: !w.isMaximized } : w
     ));
+    setTimeout(() => {
+      setTransitioningLayoutIds(prev => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+    }, 350);
   };
 
   const startDrag = (id, e) => {
@@ -814,7 +834,7 @@ export default function MacOSInterface({ onExit }) {
                     key={item.id} 
                     className={`finder-item ${isSelected ? 'selected' : ''}`}
                     onClick={(e) => handleFinderItemClick(e, item, win.id)}
-                    onDoubleClick={() => handleFinderItemDoubleClick(item, win.id)}
+                    onDoubleClick={(e) => handleFinderItemDoubleClick(e, item, win.id)}
                   >
                     <div className="finder-item-icon-wrapper">
                       <div className="finder-item-icon">
@@ -1085,7 +1105,11 @@ export default function MacOSInterface({ onExit }) {
     }
   };
 
-  const handleFinderItemDoubleClick = (item, winId) => {
+  const handleFinderItemDoubleClick = (e, item, winId) => {
+    const rect = e ? e.currentTarget.getBoundingClientRect() : null;
+    const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+    const originY = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
+
     if (item.type === 'file') {
       openWindow({
         id: item.id,
@@ -1095,7 +1119,9 @@ export default function MacOSInterface({ onExit }) {
         fileTitle: item.title,
         fileContent: item.content,
         w: 680,
-        h: 480
+        h: 480,
+        originX,
+        originY
       });
     } else if (item.type === 'link') {
       if (item.url.startsWith('mailto:')) {
@@ -1116,12 +1142,14 @@ export default function MacOSInterface({ onExit }) {
         contentType: 'image',
         imageUrl: item.url,
         w: 550,
-        h: 400
+        h: 400,
+        originX,
+        originY
       });
     }
   };
 
-  const handleFolderClick = (id, title) => {
+  const handleFolderClick = (id, title, originX, originY) => {
     openWindow({
       id: id,
       appName: 'Finder',
@@ -1129,11 +1157,17 @@ export default function MacOSInterface({ onExit }) {
       contentType: 'folder',
       folderKey: id,
       w: 780,
-      h: 460
+      h: 460,
+      originX,
+      originY
     });
   };
 
-  const handleAppClick = (appId) => {
+  const handleAppClick = (appId, e) => {
+    const rect = e ? e.currentTarget.getBoundingClientRect() : null;
+    const originX = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+    const originY = rect ? rect.top : window.innerHeight;
+
     if (appId === 'finder') {
       openWindow({
         id: 'finder',
@@ -1142,7 +1176,9 @@ export default function MacOSInterface({ onExit }) {
         contentType: 'folder',
         folderKey: 'desktop',
         w: 780,
-        h: 460
+        h: 460,
+        originX,
+        originY
       });
       return;
     }
@@ -1154,7 +1190,17 @@ export default function MacOSInterface({ onExit }) {
     }
 
     if (appId === 'resume') {
-      window.open(portfolioData.profile.resumeUrl, '_blank');
+      openWindow({
+        id: 'resume',
+        appName: 'Preview',
+        title: 'Resume.pdf',
+        contentType: 'pdf',
+        pdfUrl: '/assets/resume.pdf',
+        w: 800,
+        h: 600,
+        originX,
+        originY
+      });
       return;
     }
 
@@ -1166,7 +1212,7 @@ export default function MacOSInterface({ onExit }) {
       contact: 'Contact'
     };
 
-    handleFolderClick(appId, titleMap[appId] || appId);
+    handleFolderClick(appId, titleMap[appId] || appId, originX, originY);
   };
 
   // Base list of desktop folder icons
@@ -1206,7 +1252,13 @@ export default function MacOSInterface({ onExit }) {
   };
 
   return (
-    <div className="macos-container">
+    <motion.div 
+      className="macos-container"
+      initial={{ opacity: 0, scale: 1.03 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+    >
       {/* Top Menu Bar */}
       <MacOSMenuBar 
         appName={activeAppName} 
@@ -1287,7 +1339,10 @@ export default function MacOSInterface({ onExit }) {
           <div 
             key={folder.id}
             className="desktop-folder-item"
-            onDoubleClick={() => {
+            onDoubleClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const originX = rect.left + rect.width / 2;
+              const originY = rect.top + rect.height / 2;
               if (folder.isFile) {
                 openWindow({
                   id: folder.id,
@@ -1296,10 +1351,12 @@ export default function MacOSInterface({ onExit }) {
                   contentType: 'pdf',
                   pdfUrl: '/assets/resume.pdf',
                   w: 800,
-                  h: 600
+                  h: 600,
+                  originX,
+                  originY
                 });
               } else {
-                handleFolderClick(folder.id, folder.title === 'About' ? 'About Me' : folder.title);
+                handleFolderClick(folder.id, folder.title === 'About' ? 'About Me' : folder.title, originX, originY);
               }
             }}
           >
@@ -1318,20 +1375,58 @@ export default function MacOSInterface({ onExit }) {
             const isFocused = windowOrder[windowOrder.length - 1] === win.id;
             const zIndex = windowOrder.indexOf(win.id) + 100;
             
+            // Calculate center of window
+            const winCenterX = win.x + win.w / 2;
+            const winCenterY = win.y + win.h / 2;
+            
+            // Calculate relative offset from click origin
+            const originX = win.originX !== undefined ? win.originX : window.innerWidth / 2;
+            const originY = win.originY !== undefined ? win.originY : window.innerHeight / 2;
+            const dx = originX - winCenterX;
+            const dy = originY - winCenterY;
+            
+            // Minimize target position (Dock center-bottom)
+            const minimizeX = (window.innerWidth / 2) - winCenterX;
+            const minimizeY = window.innerHeight - winCenterY - 30;
+
+            const isTransitioning = transitioningLayoutIds.has(win.id);
+
             return (
               <motion.div
                 key={win.id}
-                initial={{ opacity: 0, scale: 0.85, y: 30 }}
-                animate={win.isMinimized 
-                  ? { opacity: 0, scale: 0.15, y: 150 } 
-                  : { opacity: 1, scale: 1, y: 0 }
-                }
-                exit={{ opacity: 0, scale: 0.85, y: 30 }}
-                transition={{ 
-                  duration: 0.32, 
-                  ease: [0.16, 1, 0.3, 1] 
+                initial={{ 
+                  opacity: 0, 
+                  scale: 0.1, 
+                  x: dx, 
+                  y: dy 
                 }}
-                className={`mac-window ${win.appName === 'Finder' ? 'finder-window' : ''} ${isFocused ? 'active' : ''}`}
+                animate={win.isMinimized 
+                  ? { 
+                      opacity: 0, 
+                      scale: 0.15, 
+                      x: minimizeX, 
+                      y: minimizeY 
+                    } 
+                  : { 
+                      opacity: 1, 
+                      scale: 1, 
+                      x: 0, 
+                      y: 0 
+                    }
+                }
+                exit={{ 
+                  opacity: 0, 
+                  scale: 0.1, 
+                  x: dx, 
+                  y: dy 
+                }}
+                transition={{ 
+                  type: 'spring',
+                  stiffness: win.isMinimized ? 250 : 350,
+                  damping: win.isMinimized ? 24 : 28,
+                  opacity: { duration: 0.22 }
+                }}
+                className={`mac-window ${win.appName === 'Finder' ? 'finder-window' : ''} ${isFocused ? 'active' : ''} ${isTransitioning ? 'transitioning-layout' : ''}`}
                 style={{
                   position: 'absolute',
                   top: win.isMaximized ? '28px' : `${win.y}px`,
@@ -1364,6 +1459,7 @@ export default function MacOSInterface({ onExit }) {
                             startDrag(win.id, e);
                           }
                         }}
+                        onDoubleClick={(e) => toggleMaximize(win.id, e)}
                       >
                         <div className="window-traffic-lights" style={{ display: 'flex', gap: '8px' }}>
                           <button className="traffic-dot close" onClick={(e) => closeWindow(win.id, e)} />
@@ -1384,6 +1480,11 @@ export default function MacOSInterface({ onExit }) {
                         onMouseDown={(e) => {
                           if (!win.isMaximized && !e.target.closest('button') && !e.target.closest('input')) {
                             startDrag(win.id, e);
+                          }
+                        }}
+                        onDoubleClick={(e) => {
+                          if (!e.target.closest('button') && !e.target.closest('input')) {
+                            toggleMaximize(win.id, e);
                           }
                         }}
                       >
@@ -1429,6 +1530,7 @@ export default function MacOSInterface({ onExit }) {
                           startDrag(win.id, e);
                         }
                       }}
+                      onDoubleClick={(e) => toggleMaximize(win.id, e)}
                     >
                       <div className="window-traffic-lights">
                         <button className="traffic-dot close" onClick={(e) => closeWindow(win.id, e)} />
@@ -1465,6 +1567,6 @@ export default function MacOSInterface({ onExit }) {
         />
       </div>
       <GlassFilter />
-    </div>
+    </motion.div>
   );
 }
