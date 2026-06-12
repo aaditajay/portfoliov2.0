@@ -942,6 +942,13 @@ export default function MacOSInterface({ onExit }) {
       });
       return;
     }
+
+    const clickedApp = dockApps.find(app => app.id === appId);
+    if (clickedApp && clickedApp.url) {
+      window.open(clickedApp.url, '_blank');
+      return;
+    }
+
     if (appId === 'resume') {
       window.open(portfolioData.profile.resumeUrl, '_blank');
       return;
@@ -970,12 +977,14 @@ export default function MacOSInterface({ onExit }) {
   // Dock items configuration
   const dockApps = [
     { id: 'finder', name: 'Finder', icon: '/macos/icons/Finder.svg' },
-    { id: 'about', name: 'About', icon: '/macos/icons/About.svg' },
-    { id: 'expertise', name: 'Expertise', icon: '/macos/icons/Expertise.svg' },
-    { id: 'experience', name: 'Experience', icon: '/macos/icons/Experience.svg' },
-    { id: 'projects', name: 'Projects', icon: '/macos/icons/Projects.svg' },
-    { id: 'contact', name: 'Contact', icon: '/macos/icons/Contact.svg' },
-    { id: 'resume', name: 'Resume', icon: '/macos/icons/Resume.svg' }
+    { id: 'claude', name: 'Claude', icon: '/macos/icons/Claude.png', url: 'https://claude.ai/' },
+    { id: 'figma', name: 'Figma', icon: '/macos/icons/Figma.png', url: 'https://www.figma.com/' },
+    { id: 'vscode', name: 'VSCode', icon: '/macos/icons/VSCode.png', url: 'https://code.visualstudio.com/' },
+    { id: 'letterboxd', name: 'Letterboxd', icon: '/macos/icons/Letterboxd.png', url: 'https://letterboxd.com/' },
+    { id: 'pinterest', name: 'Pinterest', icon: '/macos/icons/Pinterest.png', url: 'https://www.pinterest.com/' },
+    { id: 'spotify', name: 'Spotify', icon: '/macos/icons/Spotify.png', url: 'https://www.spotify.com/' },
+    { id: 'notion', name: 'Notion', icon: '/macos/icons/Notion.png', url: 'https://www.notion.so/' },
+    { id: 'obsidian', name: 'Obsidian', icon: '/macos/icons/Obsidian.png', url: 'https://obsidian.md/' }
   ];
 
   // Get currently running app IDs (any open windows)
