@@ -1,0 +1,200 @@
+/* ── Fonts ──────────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Enigma';
+  src: url('/fonts/enigma-bold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/gilroy.otf') format('opentype');
+}
+@font-face {
+  font-family: 'RitAla';
+  src: url('/fonts/rit ala.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Stylish';
+  src: url('/fonts/stylish.otf') format('opentype');
+}
+
+/* ── Root ───────────────────────────────────────────────────────────────────── */
+.selector-root {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Spiral canvas ──────────────────────────────────────────────────────────── */
+.spiral-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── UI layer ───────────────────────────────────────────────────────────────── */
+.selector-ui {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 64px;
+}
+
+/* ── Heading ────────────────────────────────────────────────────────────────── */
+.selector-heading {
+  font-family: 'Enigma', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+}
+
+/* ── Cards row ──────────────────────────────────────────────────────────────── */
+.selector-cards {
+  display: flex;
+  gap: 56px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.selector-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ── Liquid glass button ────────────────────────────────────────────────────── */
+.liquid-btn {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.liquid-btn:hover:not(.liquid-btn--disabled) {
+  transform: scale(1.06) translateY(-4px);
+}
+
+.liquid-btn:active:not(.liquid-btn--disabled) {
+  transform: scale(0.97);
+}
+
+.liquid-btn--disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* Shadow shell — the glass look */
+.liquid-btn__shell {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  /* Light mode glass — invert for dark bg */
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.12),
+    0 0 8px rgba(0,0,0,0.03),
+    0 2px 6px rgba(0,0,0,0.08),
+    inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+    inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+    inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+    inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+    inset 0 0 6px 6px rgba(255,255,255,0.12),
+    inset 0 0 2px 2px rgba(255,255,255,0.06),
+    0 0 12px rgba(0,0,0,0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+.liquid-btn:hover:not(.liquid-btn--disabled) .liquid-btn__shell {
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.18),
+    0 4px 24px rgba(255,255,255,0.08),
+    inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.12),
+    inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.9),
+    inset 1px 1px 1px -0.5px rgba(255,255,255,0.7),
+    inset -1px -1px 1px -0.5px rgba(255,255,255,0.7),
+    inset 0 0 8px 8px rgba(255,255,255,0.15),
+    inset 0 0 2px 2px rgba(255,255,255,0.08),
+    0 0 20px rgba(0,0,0,0.2);
+}
+
+/* Backdrop distortion */
+.liquid-btn__backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  overflow: hidden;
+}
+
+/* Content */
+.liquid-btn__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interface-logo {
+   width: 52px;
+  height: 52px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+  pointer-events: none;
+  user-select: none;
+}
+
+.lock-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 2px 6px;
+}
+
+/* ── Labels ─────────────────────────────────────────────────────────────────── */
+.interface-label {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.04em;
+}
+
+.label--terminal { font-family: 'Gilroy', monospace; }
+.label--macos    { font-family: 'RitAla', serif; }
+.label--studio   { font-family: 'Stylish', serif; }
+
+/* ── Glass SVG filter (hidden) ──────────────────────────────────────────────── */
+.glass-filter-svg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}

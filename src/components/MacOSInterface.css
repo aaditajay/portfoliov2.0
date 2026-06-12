@@ -1,0 +1,1073 @@
+@import url('https://fonts.cdnfonts.com/css/sf-pro-display');
+
+.macos-container {
+  width: 100vw;
+  height: 100vh;
+  background: url('/macos/wallpaper.jpg') no-repeat center center / cover, var(--mac-wallpaper);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Menu Dropdown Hover Style */
+.menu-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Battery Status Widget */
+.battery-widget {
+  position: absolute;
+  top: 52px;
+  left: 24px;
+  width: 140px;
+  height: 140px;
+  background: rgba(30, 30, 30, 0.35);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+}
+
+.battery-percentage {
+  font-family: var(--font-sans);
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: 10px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* Horizontal Folder Icons Grid */
+.desktop-folders-row {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.desktop-folder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  width: 86px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.desktop-folder-item:hover {
+  transform: scale(1.06);
+}
+
+.desktop-folder-icon {
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+}
+
+.desktop-folder-label {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 5px rgba(0,0,0,0.85);
+  text-align: center;
+}
+
+/* Dynamic Window Manager */
+.mac-window {
+  position: absolute;
+  min-width: 320px;
+  min-height: 200px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--mac-border);
+  background: var(--mac-glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+}
+
+.mac-window.active {
+  background: var(--mac-glass-active);
+  box-shadow: var(--shadow-mac);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.mac-window.minimized {
+  transform: scale(0) translateY(100px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Window Header / Title Bar */
+.mac-window-titlebar {
+  height: 36px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: move;
+  padding: 0 12px;
+}
+
+.mac-window.active .mac-window-titlebar {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Traffic Lights */
+.window-traffic-lights {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.traffic-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.traffic-dot::before {
+  content: '';
+  font-size: 8px;
+  font-weight: bold;
+  opacity: 0;
+  color: rgba(0, 0, 0, 0.6);
+  transition: opacity 0.15s ease;
+}
+
+.mac-window-titlebar:hover .traffic-dot::before {
+  opacity: 1;
+}
+
+.traffic-dot.close { background-color: #ff5f56; }
+.traffic-dot.close::before { content: '×'; }
+.traffic-dot.minimize { background-color: #ffbd2e; }
+.traffic-dot.minimize::before { content: '−'; font-size: 6px; }
+.traffic-dot.zoom { background-color: #27c93f; }
+.traffic-dot.zoom::before { content: '+'; font-size: 7px; }
+
+.window-title-text {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--mac-title-color);
+}
+
+/* Window Content */
+.mac-window-content {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 18px;
+  color: #e2e8f0;
+}
+
+/* Finder File List Grid */
+.finder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+  gap: 16px;
+  padding: 8px;
+}
+
+.finder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  width: 95px;
+}
+
+.finder-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.finder-item-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.finder-item-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1.25;
+  width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Text Viewer Layout */
+.text-viewer-body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.text-viewer-title {
+  font-family: 'Gilroy-Medium', var(--font-sans) !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+.text-viewer-body p {
+  margin-bottom: 16px;
+}
+
+/* Markdown README Viewer Layout (For Projects) */
+.readme-container {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.readme-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.readme-title {
+  font-family: 'Gilroy-Medium', var(--font-sans) !important;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.readme-tagline {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.readme-section {
+  margin-bottom: 20px;
+}
+
+.readme-section-title {
+  font-family: 'Gilroy-Medium', var(--font-sans) !important;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-bottom: 2px;
+}
+
+.readme-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.readme-tech-tag {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+  padding: 2px 10px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.readme-btn-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.3);
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.readme-btn-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Floating macOS Dock placement override */
+.mac-dock-container {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+/* About Window Monogram */
+.about-avatar-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.about-monogram {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.2);
+}
+
+.about-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.about-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Window size specifications */
+.win-about { width: 500px; height: 350px; }
+.win-experience { width: 550px; height: 400px; }
+.win-expertise { width: 500px; height: 380px; }
+.win-projects { width: 620px; height: 420px; }
+.win-contact { width: 450px; height: 280px; }
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .mac-window {
+    width: 90vw !important;
+    left: 5vw !important;
+    top: 50px !important;
+    height: 65vh !important;
+  }
+  .desktop-folders-row {
+    flex-wrap: wrap;
+    top: 15%;
+    gap: 1.5rem;
+  }
+  .desktop-folder-item {
+    width: 64px;
+  }
+  .desktop-folder-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .battery-widget {
+    display: none; /* Hide widget on mobile to keep space clean */
+  }
+}
+
+/* macOS Light Mode dropdown menu styles */
+.mac-menu-dropdown {
+  position: absolute;
+  z-index: 99999;
+  background: rgba(215, 238, 252, 0.78) !important; /* light-blue glass background */
+  backdrop-filter: blur(25px) !important;
+  -webkit-backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+  min-width: 220px;
+  width: max-content;
+  max-width: 280px;
+  padding: 6px !important;
+  font-family: var(--font-sans) !important;
+}
+
+.mac-menu-dropdown-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.mac-menu-dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 6px 12px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: #1f2937 !important; /* dark text color */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.08s ease, color 0.08s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.mac-menu-dropdown-item:hover {
+  background: #007aff !important; /* macOS System Blue */
+  color: #ffffff !important;
+}
+
+.mac-shortcut {
+  font-size: 11px;
+  color: rgba(31, 41, 55, 0.5) !important;
+  margin-left: 16px;
+  transition: color 0.08s ease;
+}
+
+.mac-menu-dropdown-item:hover .mac-shortcut {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.mac-arrow {
+  font-size: 9px;
+  color: rgba(31, 41, 55, 0.4) !important;
+  margin-left: 8px;
+  transition: color 0.08s ease;
+}
+
+.mac-menu-dropdown-item:hover .mac-arrow {
+  color: #ffffff !important;
+}
+
+.menu-item-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+  color: #1f2937;
+  transition: stroke 0.08s ease, fill 0.08s ease;
+}
+
+.mac-menu-dropdown-item:hover .menu-item-icon {
+  color: #ffffff !important;
+}
+
+.mac-menu-separator {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  margin: 5px 8px !important;
+}
+
+/* Finder Window Sonoma Overrides */
+.mac-window.finder-window,
+.mac-window.finder-window * {
+  font-family: 'Gilroy-Light', 'Gilroy', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif !important;
+}
+
+.mac-window.finder-window {
+  background: #ffffff !important; /* Pure white background for outer window */
+  color: #1c1c1e !important;
+  border: 1px solid rgba(0, 0, 0, 0.16) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28), 0 0 1px rgba(0, 0, 0, 0.35) !important;
+  border-radius: 18px !important; /* Increased corner roundedness for the main window */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar and Main Pane Split Layout */
+.finder-window-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+.finder-sidebar {
+  position: relative !important;
+  height: calc(100% - 16px) !important; /* Float with padding top and bottom */
+  margin: 8px 0px 8px 8px !important; /* Floating rectangle margin */
+  border-radius: 10px !important; /* Floating rounded corners */
+  background: #ffffff !important; /* Pure white background for sidebar */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important; /* Box border for floating panel */
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Sidebar vertical resize handle */
+.sidebar-resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 100;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.sidebar-resize-handle:hover,
+.sidebar-resize-handle.resizing {
+  background: rgba(0, 122, 255, 0.3) !important; /* Blue glow indicator on resize drag */
+}
+
+.finder-sidebar-header {
+  height: 52px !important; /* Sonoma Native Header height */
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.finder-sidebar-header .window-traffic-lights {
+  position: relative !important;
+  left: 0 !important;
+  display: flex !important;
+  gap: 8px !important;
+  align-items: center !important;
+}
+
+.finder-sidebar-header:hover .traffic-dot::before {
+  opacity: 1 !important;
+}
+
+.finder-sidebar-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 6px 12px 6px;
+}
+
+.finder-main {
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff !important; /* Solid main pane */
+  overflow: hidden;
+  position: relative;
+}
+
+.finder-main::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 0.2s;
+}
+
+.finder-main:hover::after {
+  background: rgba(0,0,0,0.05);
+}
+
+/* Finder Toolbar (Sonoma Header styling) */
+.finder-toolbar {
+  height: 52px !important; /* Sonoma Native Toolbar height */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  background: #ffffff !important; /* Pure white background for toolbar */
+  border-bottom: none !important;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.finder-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.finder-toolbar-nav {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.finder-toolbar-nav-btn {
+  border: none;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.56);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 20px;
+  padding: 0;
+  transition: background 0.1s, color 0.1s;
+}
+
+.finder-toolbar-nav-btn:first-child {
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.finder-toolbar-nav-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.finder-toolbar-nav-btn:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.finder-toolbar-title {
+  font-weight: 700;
+  font-size: 13px !important; /* Apple Sonoma title font size */
+  color: #1c1c1e;
+  text-align: left;
+}
+
+.finder-toolbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  max-width: 200px;
+}
+
+.finder-view-switcher {
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  padding: 1.5px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.finder-view-btn {
+  background: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.45);
+  padding: 3px 6px;
+  border-radius: 4.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.finder-view-btn.active {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.finder-view-btn:hover:not(.active):not(:disabled) {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.finder-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.finder-toolbar-action-btn {
+  background: transparent;
+  border: none;
+  color: rgba(0, 0, 0, 0.56);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 5px;
+  transition: background-color 0.1s, color 0.1s;
+}
+
+.finder-toolbar-action-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Sonoma Compact Search Box */
+.finder-search-box-light {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+  padding: 3px 6px;
+  width: 110px !important; /* Sonoma compact search width */
+  gap: 4px;
+  transition: width 0.15s ease, background-color 0.15s;
+}
+
+.finder-search-box-light:focus-within {
+  width: 130px !important;
+  background: #ffffff;
+  border-color: #007aff;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
+}
+
+.finder-search-box-light input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 11px !important;
+  color: #1c1c1e;
+  width: 100%;
+}
+
+.finder-search-box-light input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Main Grid Inside Finder (Light Theme Sonoma spacing) */
+.finder-content-body {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px;
+  background: #ffffff;
+}
+
+.finder-window-content-light {
+  padding: 0 !important;
+  background: #ffffff !important;
+  color: #1c1c1e !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sonoma visual density grid */
+.finder-window-content-light .finder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)) !important;
+  gap: 24px 16px !important;
+  padding: 20px !important;
+}
+
+.finder-window-content-light .finder-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px !important;
+  padding: 8px 6px !important;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 104px !important;
+  box-sizing: border-box;
+}
+
+.finder-window-content-light .finder-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.finder-window-content-light .finder-item-label {
+  font-size: 12px !important; /* Sonoma exact file text size */
+  color: #1c1c1e;
+  font-weight: 400 !important;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.35;
+  word-wrap: break-word;
+  word-break: break-word;
+  padding: 1px 4px;
+}
+
+/* Tree Sidebar UI Sonoma Styling */
+[data-slot="tree"] {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+[data-slot="tree-item"] {
+  z-index: 10;
+  outline: none;
+  user-select: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  width: 100%;
+  padding: 0;
+  display: block;
+}
+
+[data-slot="tree-item-label"] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px !important;
+  padding: 5px 10px 5px calc(8px + var(--tree-padding, 0px)) !important; /* Apply indentation padding! */
+  font-size: 13px !important; /* Sonoma sidebar font size */
+  color: #2c2c2e;
+  font-family: 'Gilroy-Light', 'Gilroy', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  transition: background-color 0.1s, color 0.1s;
+  margin: 1.5px 8px !important;
+  box-sizing: border-box;
+  width: calc(100% - 16px);
+}
+
+[data-slot="tree-item-label"] svg {
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+[data-slot="tree-item"]:hover [data-slot="tree-item-label"] {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-slot="tree-item"][data-selected="true"] [data-slot="tree-item-label"] {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  font-weight: 600;
+  color: #000000;
+}
+
+[data-slot="tree-item"][data-folder="true"] {
+  cursor: default;
+}
+
+[data-slot="tree-item"][data-folder="true"] [data-slot="tree-item-label"] {
+  font-size: 10.5px !important; /* Sonoma Sidebar headers */
+  font-weight: 700 !important;
+  color: rgba(0, 0, 0, 0.42) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding-top: 12px;
+  padding-bottom: 3px;
+  cursor: default;
+  margin: 1.5px 8px !important;
+  width: calc(100% - 16px);
+}
+
+[data-slot="tree-item"][data-folder="true"] [data-slot="tree-item-label"] svg {
+  display: none !important;
+}
+
+[data-slot="tree-item"][data-folder="true"]:hover [data-slot="tree-item-label"] {
+  background-color: transparent;
+}
+
+.sidebar-icon {
+  width: 14px;
+  height: 14px;
+  color: rgba(0, 0, 0, 0.52);
+  flex-shrink: 0;
+  transition: color 0.1s ease;
+}
+
+[data-slot="tree-item"][data-selected="true"] .sidebar-icon {
+  color: #000000 !important;
+}
+
+/* Finder File List Selection & Status Bar */
+.finder-grid-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #ffffff;
+}
+
+.finder-item-icon-wrapper {
+  position: relative;
+  width: 62px !important;
+  height: 62px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.finder-item-icon {
+  width: 56px !important;
+  height: 56px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.finder-window-content-light .finder-item-icon img,
+.finder-window-content-light .finder-item-icon-wrapper img {
+  filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.15)) !important;
+}
+
+.shortcut-arrow-badge {
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.shortcut-arrow-badge svg {
+  width: 7px;
+  height: 7px;
+  color: #333333;
+}
+
+/* Selected grid item overlays */
+.finder-window-content-light .finder-item.selected {
+  background: transparent !important;
+}
+
+.finder-window-content-light .finder-item.selected .finder-item-label {
+  background-color: #007aff !important; /* macOS Sonoma blue highlight selection */
+  color: #ffffff !important;
+  border-radius: 4.5px;
+  padding: 1px 6px;
+}
+
+.finder-window-content-light .finder-item.selected .finder-item-icon {
+  filter: brightness(0.92) contrast(1.03);
+}
+
+.finder-window-content-light .finder-item.selected .finder-item-icon::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: rgba(0, 122, 255, 0.12);
+  border: 1.5px solid rgba(0, 122, 255, 0.35);
+  border-radius: 6px;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+/* Status bar */
+.finder-statusbar {
+  height: 23px;
+  background: #ffffff !important; /* Pure white background for status bar */
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Traffic lights inactive & hover styles */
+.mac-window:not(.active) .traffic-dot {
+  background-color: #e3e3e3 !important; /* Inactive grey */
+  border: 0.5px solid rgba(0, 0, 0, 0.03) !important;
+}
+
+.mac-window:not(.active) .traffic-dot::before {
+  color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.window-traffic-lights:hover .traffic-dot.close,
+.mac-window-titlebar:hover .traffic-dot.close,
+.finder-sidebar-header:hover .traffic-dot.close {
+  background-color: #ff5f56 !important;
+}
+
+.window-traffic-lights:hover .traffic-dot.minimize,
+.mac-window-titlebar:hover .traffic-dot.minimize,
+.finder-sidebar-header:hover .traffic-dot.minimize {
+  background-color: #ffbd2e !important;
+}
+
+.window-traffic-lights:hover .traffic-dot.zoom,
+.mac-window-titlebar:hover .traffic-dot.zoom,
+.finder-sidebar-header:hover .traffic-dot.zoom {
+  background-color: #27c93f !important;
+}
+
+.window-traffic-lights:hover .traffic-dot::before,
+.mac-window-titlebar:hover .traffic-dot::before,
+.finder-sidebar-header:hover .traffic-dot::before {
+  opacity: 1 !important;
+}
+
+/* Universal Window Resize Handle */
+.window-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  z-index: 9999;
+  background: transparent;
+}
+
+
+
+

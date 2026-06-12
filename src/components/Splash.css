@@ -1,0 +1,199 @@
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, #11131c 0%, #07080c 100%);
+  position: relative;
+  overflow: hidden;
+  z-index: 100;
+}
+
+/* Background Glowing Orbs */
+.splash-bg-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(6, 182, 212, 0.05) 50%, rgba(0,0,0,0) 100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: blur(80px);
+  pointer-events: none;
+  animation: pulseGlow 8s infinite alternate ease-in-out;
+}
+
+.splash-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 600px;
+  padding: 2rem;
+  z-index: 2;
+  animation: scaleUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Monogram Ring */
+.monogram-ring {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.05);
+  margin-bottom: 2rem;
+  position: relative;
+  animation: float 6s infinite ease-in-out;
+  transition: border-color 0.5s ease;
+}
+
+.monogram-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  z-index: -1;
+  opacity: 0.5;
+  filter: blur(4px);
+}
+
+.monogram-text {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, #ffffff 30%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.splash-name {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #ffffff, #e2e8f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.splash-tagline {
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  margin-bottom: 3rem;
+  letter-spacing: 0.5px;
+  max-width: 450px;
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeIn 1s ease 0.4s forwards;
+}
+
+/* Enter Button */
+.enter-button {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.2));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 0.85rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.enter-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.enter-button:hover {
+  transform: translateY(-3px) scale(1.03);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.5);
+}
+
+.enter-button:hover::before {
+  opacity: 1;
+}
+
+.enter-button:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Progress bar / Auto-transition indicator */
+.splash-progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.splash-progress-bar {
+  height: 100%;
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  width: 0%;
+  transition: width 0.05s linear;
+}
+
+/* Quick transition fade out class */
+.splash-fade-out {
+  animation: fadeOut 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.05);
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 640px) {
+  .splash-name {
+    font-size: 2.5rem;
+  }
+  .splash-tagline {
+    font-size: 0.95rem;
+    padding: 0 1rem;
+  }
+  .monogram-ring {
+    width: 100px;
+    height: 100px;
+  }
+  .monogram-text {
+    font-size: 2.5rem;
+  }
+}
