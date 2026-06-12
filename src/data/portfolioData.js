@@ -6,6 +6,7 @@ export const portfolioData = {
     monogram: "AA",
     bio: "Hey, I'm Aadit Ajay.\n\nI'm a Computer Science and Engineering student, project manager, community builder, and developer who enjoys turning ideas into reality.\n\nOver the past few years, I've found myself naturally stepping into roles where things need to be organized, led, or built. Whether it's managing large student communities, coordinating cross-functional teams, planning events, building software products, or designing systems that help people work better together, I enjoy bringing structure to chaos and momentum to ideas.\n\nCurrently, I serve as a Project Management Intern and Alappuzha District Lead at µLearn Foundation, Campus Lead of µLearn SBC, and Chairman of the IEEE Industry Applications Society at Sree Buddha College of Engineering.\n\nWhile technology forms the foundation of my work, I am equally passionate about leadership, strategy, communication, and community building. I believe great outcomes happen when strong systems, capable teams, and meaningful ideas come together.\n\nMy long-term goal is to build and lead impactful products, organizations, and communities that create real value for people.",
     email: "aaditajay@gmail.com",
+    phone: "+91 95623 21151",
     linkedin: "https://linkedin.com/in/aaditajay",
     github: "https://github.com/aaditajay",
     location: "Kerala, India",

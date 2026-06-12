@@ -180,7 +180,7 @@ export default function MacOSInterface({ onExit }) {
       if (!proj) return [];
       
       const items = [
-        { id: `readme-${projId}`, name: 'Readme.md', type: 'file', content: proj.description, title: `${proj.name} - README.md` },
+        { id: `readme-${projId}`, name: 'Readme.md', type: 'file', content: proj.description, title: proj.name },
         { id: `project-images-${projId}`, name: 'Images', type: 'folder-link', title: 'Images', folderKey: `project-images-${projId}` }
       ];
 
@@ -656,14 +656,14 @@ export default function MacOSInterface({ onExit }) {
         id: 'about-readme',
         name: 'Readme.md',
         type: 'file',
-        content: `#About\n\nHey, I'm Aadit.\n\nI'm currently a final-year Computer Science and Engineering student at Sree Buddha College of Engineering, Alappuzha, continuously learning, building, and preparing for a future in project management, product development, and leadership.\nI love making things happen.\n\nSometimes that's a software product. Sometimes it's a community, an event, a team, or an idea that needs structure and direction. My background is in Computer Science, but what excites me most is managing projects, solving problems, and bringing people together to build something meaningful.\n\nOver the past few years, I've had the opportunity to lead student communities, manage large-scale initiatives, organize events, and build digital products that solve real problems. Through these experiences, I've discovered that my greatest strength isn't just building things—it's helping people work together towards a shared goal. I enjoy creating clarity, building systems, and turning ambitious ideas into actionable plans.\n\nWhen I'm not managing projects or communities, you'll probably find me building side projects, exploring new technologies, brainstorming ideas, or working on something creative. I'm particularly interested in the intersection of technology, leadership, and human impact where great products and great teams come together to create meaningful change.`,
+        content: `Hey, I'm Aadit.\n\nI'm currently a final-year Computer Science and Engineering student at Sree Buddha College of Engineering, Alappuzha, continuously learning, building, and preparing for a future in project management, product development, and leadership.\nI love making things happen.\n\nSometimes that's a software product. Sometimes it's a community, an event, a team, or an idea that needs structure and direction. My background is in Computer Science, but what excites me most is managing projects, solving problems, and bringing people together to build something meaningful.\n\nOver the past few years, I've had the opportunity to lead student communities, manage large-scale initiatives, organize events, and build digital products that solve real problems. Through these experiences, I've discovered that my greatest strength isn't just building things—it's helping people work together towards a shared goal. I enjoy creating clarity, building systems, and turning ambitious ideas into actionable plans.\n\nWhen I'm not managing projects or communities, you'll probably find me building side projects, exploring new technologies, brainstorming ideas, or working on something creative. I'm particularly interested in the intersection of technology, leadership, and human impact where great products and great teams come together to create meaningful change.`,
         title: 'About Me'
       },
       {
         id: 'about-education',
         name: 'Education.md',
         type: 'file',
-        content: `Education\n\nB.Tech In Computer Science & Engineering\nSree Buddha College of Engineering, Alappuzha | 2023-2027\nPursuing undergraduate studies under APJ Abdul Kalam Technological University.\nActively leading community initiatives and organising events at campus level alongside academics.\n\n\nHigher Secondary in Computer Science Stream\nSree Buddha Central School, Karunagappally | 2021-2023\nCompleted Higher Secondary Education under the Central Board of Secondary Education (CBSE).\nScored 95 marks in Computer Science. Served as School Leader.`,
+        content: `B.Tech In Computer Science & Engineering\nSree Buddha College of Engineering, Alappuzha | 2023-2027\nPursuing undergraduate studies under APJ Abdul Kalam Technological University.\nActively leading community initiatives and organising events at campus level alongside academics.\n\n\nHigher Secondary in Computer Science Stream\nSree Buddha Central School, Karunagappally | 2021-2023\nCompleted Higher Secondary Education under the Central Board of Secondary Education (CBSE).\nScored 95 marks in Computer Science. Served as School Leader.`,
         title: 'Education'
       }
     ],
@@ -799,6 +799,159 @@ export default function MacOSInterface({ onExit }) {
         );
 
       case 'file':
+        if (win.id === 'expertise-readme') {
+          const expertiseItems = [
+            {
+              heading: 'Project Management',
+              body: 'Planning, coordinating, and delivering projects from concept to execution. Experienced in managing cross-functional teams, tracking milestones, streamlining workflows, and ensuring successful outcomes through structured execution and Agile methodologies.'
+            },
+            {
+              heading: 'Software Development',
+              body: 'Building modern web and mobile applications using technologies such as React, Next.js, Flutter, FastAPI, and Python. Focused on creating scalable, user-centric solutions that solve real-world problems.'
+            },
+            {
+              heading: 'Strategic Thinking',
+              body: 'Breaking down ambitious ideas into actionable roadmaps. Skilled at identifying opportunities, designing systems, aligning stakeholders, and creating long-term plans that drive meaningful impact.'
+            },
+            {
+              heading: 'Team Leadership',
+              body: 'Building high-performing teams by fostering collaboration, accountability, and shared ownership. Experienced in leading student communities, organizing volunteers, and creating environments where people can do their best work.'
+            },
+            {
+              heading: 'Product Development',
+              body: 'Transforming ideas into digital products by combining user needs, technical execution, and iterative problem-solving. Experienced in building web applications, AI-powered platforms, and mobile applications from concept to deployment.'
+            },
+            {
+              heading: 'Public Speaking',
+              body: 'Communicating ideas with clarity and confidence through presentations, workshops, and discussions. Comfortable speaking to diverse audiences and translating complex concepts into engaging conversations.'
+            },
+            {
+              heading: 'Stakeholder Management',
+              body: 'Collaborating effectively with students, volunteers, mentors, industry professionals, and organizational leaders to align expectations, facilitate communication, and drive collective success'
+            }
+          ];
+
+          return (
+            <div className="text-viewer-body">
+              <h3 className="text-viewer-title">{win.fileTitle}</h3>
+              <div style={{ marginTop: '12px' }}>
+                {expertiseItems.map((item, idx) => (
+                  <div key={idx} className="expertise-item" style={{ marginBottom: '16px' }}>
+                    <h4 
+                      className="expertise-item-heading" 
+                      style={{ 
+                        fontFamily: 'Gilroy-Medium, var(--font-sans)', 
+                        fontSize: '1.05rem', 
+                        fontWeight: 600, 
+                        color: '#ffffff',
+                        marginBottom: '2px'
+                      }}
+                    >
+                      {item.heading}
+                    </h4>
+                    <p className="expertise-item-body" style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                      {item.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        if (['mulearn-foundation-readme', 'mulearn-sbc-readme', 'ieee-sbce-readme', 'purple-movement-readme'].includes(win.id)) {
+          const roles = win.fileContent.split(/\n\s*---\s*\n/);
+          return (
+            <div className="text-viewer-body">
+              <h3 className="text-viewer-title">{win.fileTitle}</h3>
+              <div style={{ marginTop: '12px' }}>
+                {roles.map((roleStr, idx) => {
+                  const parts = roleStr.trim().split('\n\n');
+                  if (parts.length >= 3) {
+                    const title = parts[0].trim();
+                    const date = parts[1].trim();
+                    const desc = parts.slice(2).join('\n\n').trim();
+                    return (
+                      <div key={idx} className="experience-role" style={{ marginBottom: idx < roles.length - 1 ? '20px' : '0' }}>
+                        <div 
+                          style={{ 
+                            fontFamily: 'Gilroy-Bold, var(--font-sans)', 
+                            fontWeight: 'bold', 
+                            fontSize: '1.05rem', 
+                            color: '#ffffff', 
+                            marginBottom: '2px'
+                          }}
+                        >
+                          {title}
+                        </div>
+                        <div 
+                          style={{ 
+                            fontFamily: 'Gilroy-Medium, var(--font-sans)', 
+                            fontSize: '0.85rem', 
+                            color: '#9ca3af', 
+                            marginBottom: '10px' 
+                          }}
+                        >
+                          {date}
+                        </div>
+                        <p style={{ color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.5', whiteSpace: 'pre-wrap', marginBottom: '12px' }}>
+                          {desc}
+                        </p>
+                        {idx < roles.length - 1 && <hr style={{ border: 'none', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', margin: '14px 0' }} />}
+                      </div>
+                    );
+                  }
+                  return <p key={idx} style={{ whiteSpace: 'pre-wrap', marginBottom: '16px' }}>{roleStr}</p>;
+                })}
+              </div>
+            </div>
+          );
+        }
+
+        if (win.id === 'contact-readme') {
+          return (
+            <div className="text-viewer-body">
+              <h3 className="text-viewer-title">{win.fileTitle}</h3>
+              <p className="contact-intro" style={{ marginBottom: '16px', color: '#cbd5e1', fontSize: '0.95rem', lineHeight: '1.5' }}>
+                The best opportunities often start with a conversation. Let's have one.
+              </p>
+              
+              <div className="contact-field" style={{ marginBottom: '16px' }}>
+                <div className="contact-label" style={{ fontWeight: 600, color: '#9ca3af', fontSize: '0.9rem' }}>Email</div>
+                <a href="mailto:aaditajay@gmail.com" className="contact-link" style={{ color: '#007aff', textDecoration: 'underline', fontSize: '0.95rem' }}>
+                  aaditajay@gmail.com
+                </a>
+              </div>
+              
+              <div className="contact-field" style={{ marginBottom: '16px' }}>
+                <div className="contact-label" style={{ fontWeight: 600, color: '#9ca3af', fontSize: '0.9rem' }}>Phone</div>
+                <a href="tel:+919562321151" className="contact-link" style={{ color: '#007aff', textDecoration: 'underline', fontSize: '0.95rem' }}>
+                  +91 95623 21151
+                </a>
+              </div>
+              
+              <div className="contact-field" style={{ marginBottom: '16px' }}>
+                <div className="contact-label" style={{ fontWeight: 600, color: '#9ca3af', fontSize: '0.9rem' }}>LinkedIn</div>
+                <a href="https://linkedin.com/in/aaditajay" target="_blank" rel="noreferrer" className="contact-link" style={{ color: '#007aff', textDecoration: 'underline', fontSize: '0.95rem' }}>
+                  linkedin.com/in/aaditajay
+                </a>
+              </div>
+              
+              <div className="contact-field" style={{ marginBottom: '16px' }}>
+                <div className="contact-label" style={{ fontWeight: 600, color: '#9ca3af', fontSize: '0.9rem' }}>GitHub</div>
+                <a href="https://github.com/aaditajay" target="_blank" rel="noreferrer" className="contact-link" style={{ color: '#007aff', textDecoration: 'underline', fontSize: '0.95rem' }}>
+                  github.com/aaditajay
+                </a>
+              </div>
+              
+              <div className="contact-field" style={{ marginBottom: '16px' }}>
+                <div className="contact-label" style={{ fontWeight: 600, color: '#9ca3af', fontSize: '0.9rem' }}>Location</div>
+                <div className="contact-value" style={{ color: '#cbd5e1', fontSize: '0.95rem' }}>Kerala, India</div>
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="text-viewer-body">
             <h3 className="text-viewer-title">{win.fileTitle}</h3>

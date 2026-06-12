@@ -311,12 +311,13 @@ export default function TerminalInterface({ onExit }) {
       case 'contact':
         outputContent = (
           <div>
-            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>Email:</span> <a href={`mailto:${portfolioData.profile.email}`}>{portfolioData.profile.email}</a></p>
-            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>LinkedIn:</span> <a href={portfolioData.profile.linkedin} target="_blank" rel="noreferrer">{portfolioData.profile.linkedin}</a></p>
-            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>GitHub:</span> <a href={portfolioData.profile.github} target="_blank" rel="noreferrer">{portfolioData.profile.github}</a></p>
+            <p style={{ marginBottom: '8px' }}>The best opportunities often start with a conversation. Let's have one.</p>
+            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>Email:</span> <a href={`mailto:${portfolioData.profile.email}`} style={{color: '#8be9fd', textDecoration: 'underline'}}>{portfolioData.profile.email}</a></p>
             {portfolioData.profile.phone && (
-              <p><span style={{color: '#10b981', fontWeight: 'bold'}}>Phone:</span> {portfolioData.profile.phone}</p>
+              <p><span style={{color: '#10b981', fontWeight: 'bold'}}>Phone:</span> <a href={`tel:${portfolioData.profile.phone.replace(/\s+/g, '')}`} style={{color: '#8be9fd', textDecoration: 'underline'}}>{portfolioData.profile.phone}</a></p>
             )}
+            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>LinkedIn:</span> <a href={portfolioData.profile.linkedin} target="_blank" rel="noreferrer" style={{color: '#8be9fd', textDecoration: 'underline'}}>{portfolioData.profile.linkedin.replace('https://', '')}</a></p>
+            <p><span style={{color: '#10b981', fontWeight: 'bold'}}>GitHub:</span> <a href={portfolioData.profile.github} target="_blank" rel="noreferrer" style={{color: '#8be9fd', textDecoration: 'underline'}}>{portfolioData.profile.github.replace('https://', '')}</a></p>
             {portfolioData.profile.location && (
               <p><span style={{color: '#10b981', fontWeight: 'bold'}}>Location:</span> {portfolioData.profile.location}</p>
             )}
