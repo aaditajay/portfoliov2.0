@@ -233,6 +233,11 @@ export default function TerminalInterface({ onExit }) {
                     <td className="help-cell-cmd" style={{width: 120}}>{proj.id}</td>
                     <td className="help-cell-desc">
                       <span style={{fontWeight: 'bold', color: '#fff'}}>{proj.name}</span> - {proj.tagline}
+                      {proj.website && (
+                        <span style={{marginLeft: '10px'}}>
+                          [<a href={proj.website} target="_blank" rel="noreferrer" style={{color: '#8be9fd', textDecoration: 'underline'}}>Live Link</a>]
+                        </span>
+                      )}
                       <div style={{fontSize: '0.8rem', color: '#6b7280', marginTop: '2px'}}>
                         Stack: {proj.techStack.join(', ')}
                       </div>
@@ -291,13 +296,13 @@ export default function TerminalInterface({ onExit }) {
                 {proj.website && (
                   <div className="project-details-section">
                     <div className="project-details-label">Visit Live</div>
-                    <a href={proj.website} target="_blank" rel="noreferrer" style={{textDecoration: 'underline'}} className="project-details-value">{proj.website}</a>
+                    <a href={proj.website} target="_blank" rel="noreferrer" style={{color: '#8be9fd', textDecoration: 'underline'}} className="project-details-value">{proj.website}</a>
                   </div>
                 )}
                 {proj.github && (
                   <div className="project-details-section">
                     <div className="project-details-label">GitHub</div>
-                    <a href={proj.github} target="_blank" rel="noreferrer" style={{textDecoration: 'underline'}} className="project-details-value">{proj.github}</a>
+                    <a href={proj.github} target="_blank" rel="noreferrer" style={{color: '#8be9fd', textDecoration: 'underline'}} className="project-details-value">{proj.github}</a>
                   </div>
                 )}
               </div>

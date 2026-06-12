@@ -122,7 +122,7 @@ export const portfolioData = {
       tagline: "Malicious URL Detection System",
       category: "Cybersecurity / ML",
       github: "https://github.com/aaditajay/dark-netra",
-      website: "",
+      website: "https://dark-netra.vercel.app/",
       techStack: ["Python", "FastAPI", "XGBoost", "REST API", "Google Safe Browsing API", "VirusTotal API"],
       description: "Dark Netra is a hybrid cybersecurity platform designed to identify malicious URLs through a combination of machine learning and real-time threat intelligence.\n\nThe system combines an XGBoost classification model with Google Safe Browsing and VirusTotal APIs to classify URLs as Safe, Suspicious, or Malicious with an accuracy of over 90%.\n\nA multi-layer feature extraction engine analyzes more than 20 URL and webpage characteristics, including subdomains, redirects, JavaScript behavior, phishing indicators, and HTML structure. These signals are then combined with external threat intelligence feeds through a weighted scoring mechanism.\n\nThe backend was built using a modular FastAPI microservice architecture capable of performing real-time URL analysis while maintaining response times below 500 milliseconds."
     },
@@ -142,7 +142,7 @@ export const portfolioData = {
       tagline: "AI Poetry Generation Platform",
       category: "Web App / Generative AI",
       github: "https://github.com/aaditajay/being-basheer",
-      website: "",
+      website: "https://beingbasheer.vercel.app",
       techStack: ["Next.js", "Supabase", "Groq LLM", "PostgreSQL", "OTP Authentication"],
       description: "Being Basheer is an AI-powered tribute platform inspired by the legendary Malayalam writer Vaikom Muhammad Basheer.\n\nUsers can generate poetry in English, Malayalam, and Hindi using Groq LLM while sharing their creations through a public community wall. The platform combines literature, creativity, and artificial intelligence into a collaborative writing experience.\n\nThe application includes OTP-based phone authentication, real-time public poem publishing, and a fully responsive interface optimized for mobile devices. A serverless backend powered by Supabase handles user management, poem storage, and moderation through row-level security policies."
     },
@@ -152,7 +152,7 @@ export const portfolioData = {
       tagline: "AI Mock Interview Platform",
       category: "Full-Stack Web App",
       github: "https://github.com/aaditajay/pursuit-hiring",
-      website: "",
+      website: "https://pursuitofhiring.vercel.app/",
       techStack: ["React.js", "FastAPI", "Python", "Groq LLM", "Three.js"],
       description: "The Pursuit of Hiring is a full-stack AI interview preparation platform designed to simulate realistic interview experiences.\n\nUsers can upload resumes, receive dynamically generated interview questions, answer them in a structured session, and receive detailed performance evaluations. Questions are generated adaptively using Groq LLM, while answers are scored across multiple evaluation parameters.\n\nThe platform also includes difficulty-based interview modes, structured feedback summaries, resume parsing, and immersive visual elements powered by Three.js. The system consistently delivers AI-generated responses in under two seconds."
     },
@@ -162,7 +162,7 @@ export const portfolioData = {
       tagline: "AI Career Discovery Platform",
       category: "Serverless Web App",
       github: "https://github.com/aaditajay/njan-aara",
-      website: "",
+      website: "https://njan-aara.vercel.app/",
       techStack: ["React.js", "Groq LLM", "Vercel", "Serverless Architecture"],
       description: "Njan Aara is an AI-powered career discovery platform designed to help students explore potential career paths through guided self-reflection.\n\nThe application uses a six-step interactive experience where users answer a series of carefully designed questions through a chip-based interface. Based on these responses, Groq's LLM generates personalized career recommendations across more than ten professional domains.\n\nThe platform is fully serverless, deployed on Vercel, and optimized for speed, accessibility, and mobile responsiveness while maintaining zero backend infrastructure costs."
     }

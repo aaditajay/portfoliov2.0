@@ -201,30 +201,25 @@ export default function MacOSInterface({ onExit }) {
       });
 
       // App website link (omit for zindasic as requested)
-      if (projId !== 'zindasic') {
-        let appUrl = '';
+      if (projId !== 'zindasic' && proj.website) {
         let appName = '';
         if (projId === 'being-basheer') {
-          appUrl = 'https://beingbasheer.vercel.app';
-          appName = 'basheer.url';
+          appName = 'Being Basheer';
         } else if (projId === 'njan-aara') {
-          appUrl = 'https://njan-aara.vercel.app/';
-          appName = 'aara.url';
+          appName = 'Njan Aara';
         } else if (projId === 'pursuit-of-hiring') {
-          appUrl = 'https://pursuitofhiring.vercel.app/';
-          appName = 'tpoh.url';
+          appName = 'The Pursuit of Hiring';
         } else if (projId === 'dark-netra') {
-          appUrl = 'https://dark-netra.vercel.app/';
-          appName = 'darknetra.url';
+          appName = 'Dark Netra';
         }
 
-        if (appUrl && appName) {
+        if (appName) {
           items.push({
             id: `website-${projId}`,
             name: appName,
             type: 'link',
-            url: appUrl,
-            text: `Project Application:\n${appUrl}\n\nDouble-click to open.`
+            url: proj.website,
+            text: `Project Application:\n${proj.website}\n\nDouble-click to open.`
           });
         }
       }
@@ -721,16 +716,16 @@ export default function MacOSInterface({ onExit }) {
     }
 
     // 3. Check for specific project app logos (placed before fallback/generic .url check)
-    if (nameLower === 'basheer.url' || idLower === 'website-being-basheer') {
+    if (nameLower === 'being basheer' || nameLower === 'basheer.url' || idLower === 'website-being-basheer') {
       return '/macos/logos/basheer.svg';
     }
-    if (nameLower === 'aara.url' || idLower === 'website-njan-aara') {
+    if (nameLower === 'njan aara' || nameLower === 'aara.url' || idLower === 'website-njan-aara') {
       return '/macos/logos/aara.svg';
     }
-    if (nameLower === 'tpoh.url' || idLower === 'website-pursuit-of-hiring') {
+    if (nameLower === 'the pursuit of hiring' || nameLower === 'tpoh.url' || idLower === 'website-pursuit-of-hiring') {
       return '/macos/logos/tpoh.svg';
     }
-    if (nameLower === 'darknetra.url' || idLower === 'website-dark-netra') {
+    if (nameLower === 'dark netra' || nameLower === 'darknetra.url' || idLower === 'website-dark-netra') {
       return '/macos/logos/darknetra.svg';
     }
 

@@ -3,7 +3,6 @@ import Splash from './components/Splash';
 import Selector from './components/Selector';
 import TerminalInterface from './components/TerminalInterface';
 import MacOSInterface from './components/MacOSInterface';
-import Switcher from './components/Switcher';
 import './App.css';
 
 function App() {
@@ -27,12 +26,6 @@ function App() {
   return (
     <div className="app-container">
       {renderActiveInterface()}
-      
-      {/* Global Floating Switcher pill overlay */}
-      <Switcher 
-        currentInterface={currentInterface} 
-        onSwitch={(target) => setCurrentInterface(target)} 
-      />
     </div>
   );
 }
