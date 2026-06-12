@@ -210,14 +210,16 @@ const MacOSDock = ({
       className={className}
       style={{
         width: `${contentWidth + padding * 2}px`,
-        background: 'rgba(30, 30, 30, 0.45)',
+        background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 50.5%, rgba(255, 255, 255, 0.02) 100%)',
         borderRadius: `${Math.max(12, baseIconSize * 0.4)}px`,
-        border: '1px solid rgba(255, 255, 255, 0.12)',
-        backdropFilter: 'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
+        border: '1.5px solid rgba(255, 255, 255, 0.35)',
+        backdropFilter: 'blur(30px)',
+        WebkitBackdropFilter: 'blur(30px)',
         boxShadow: `
-          0 ${Math.max(4, baseIconSize * 0.1)}px ${Math.max(16, baseIconSize * 0.4)}px rgba(0, 0, 0, 0.4),
-          inset 0 1px 0 rgba(255, 255, 255, 0.12)
+          0 ${Math.max(6, baseIconSize * 0.15)}px ${Math.max(24, baseIconSize * 0.5)}px rgba(0, 0, 0, 0.35),
+          inset 0 1px 1px rgba(255, 255, 255, 0.45),
+          inset 0 ${Math.max(8, baseIconSize * 0.15)}px ${Math.max(16, baseIconSize * 0.3)}px rgba(255, 255, 255, 0.12),
+          inset 0 ${Math.max(-8, -baseIconSize * 0.15)}px ${Math.max(16, baseIconSize * 0.3)}px rgba(0, 0, 0, 0.15)
         `,
         padding: `${padding}px`,
         display: 'flex',
