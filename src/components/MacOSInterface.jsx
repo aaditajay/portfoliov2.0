@@ -3,6 +3,7 @@ import { portfolioData } from '../data/portfolioData';
 import MacOSMenuBar from './MacOSMenuBar';
 import MacOSDock from './MacOSDock';
 import './MacOSInterface.css';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Clock, Users, Compass, Monitor, FileText, Download, Cloud, Home, HardDrive, Radio, Trash2,
   AppWindow, Folder, Tag
@@ -1312,132 +1313,147 @@ export default function MacOSInterface({ onExit }) {
 
       {/* Main Desktop Workspace Area */}
       <div style={{ flexGrow: 1, position: 'relative', width: '100%' }}>
-        {openWindows.map(win => {
-          const isFocused = windowOrder[windowOrder.length - 1] === win.id;
-          const zIndex = windowOrder.indexOf(win.id) + 100;
-          
-          return (            <div
-              key={win.id}
-              className={`mac-window ${win.appName === 'Finder' ? 'finder-window' : ''} ${isFocused ? 'active' : ''} ${win.isMinimized ? 'minimized' : ''}`}
-              style={{
-                top: win.isMaximized ? '28px' : `${win.y}px`,
-                left: win.isMaximized ? '0' : `${win.x}px`,
-                width: win.isMaximized ? '100vw' : `${win.w}px`,
-                height: win.isMaximized ? 'calc(100vh - 28px)' : `${win.h}px`,
-                zIndex: zIndex
-              }}
-              onMouseDown={() => focusWindow(win.id)}
-            >
-              {win.appName === 'Finder' ? (
-                <div className="finder-window-container">
-                  <div 
-                    className="finder-sidebar"
-                    style={{
-                      width: `${sidebarWidth}px`,
-                      minWidth: `${sidebarWidth}px`,
-                      maxWidth: `${sidebarWidth}px`
-                    }}
-                  >
+        <AnimatePresence>
+          {openWindows.map(win => {
+            const isFocused = windowOrder[windowOrder.length - 1] === win.id;
+            const zIndex = windowOrder.indexOf(win.id) + 100;
+            
+            return (
+              <motion.div
+                key={win.id}
+                initial={{ opacity: 0, scale: 0.85, y: 30 }}
+                animate={win.isMinimized 
+                  ? { opacity: 0, scale: 0.15, y: 150 } 
+                  : { opacity: 1, scale: 1, y: 0 }
+                }
+                exit={{ opacity: 0, scale: 0.85, y: 30 }}
+                transition={{ 
+                  duration: 0.32, 
+                  ease: [0.16, 1, 0.3, 1] 
+                }}
+                className={`mac-window ${win.appName === 'Finder' ? 'finder-window' : ''} ${isFocused ? 'active' : ''}`}
+                style={{
+                  position: 'absolute',
+                  top: win.isMaximized ? '28px' : `${win.y}px`,
+                  left: win.isMaximized ? '0' : `${win.x}px`,
+                  width: win.isMaximized ? '100vw' : `${win.w}px`,
+                  height: win.isMaximized ? 'calc(100vh - 28px)' : `${win.h}px`,
+                  zIndex: zIndex,
+                  pointerEvents: win.isMinimized ? 'none' : 'auto'
+                }}
+                onMouseDown={() => focusWindow(win.id)}
+              >
+                {win.appName === 'Finder' ? (
+                  <div className="finder-window-container">
                     <div 
-                      className={`sidebar-resize-handle ${isResizingSidebar ? 'resizing' : ''}`}
-                      onMouseDown={startSidebarResize}
-                    />
+                      className="finder-sidebar"
+                      style={{
+                        width: `${sidebarWidth}px`,
+                        minWidth: `${sidebarWidth}px`,
+                        maxWidth: `${sidebarWidth}px`
+                      }}
+                    >
+                      <div 
+                        className={`sidebar-resize-handle ${isResizingSidebar ? 'resizing' : ''}`}
+                        onMouseDown={startSidebarResize}
+                      />
+                      <div 
+                        className="finder-sidebar-header"
+                        onMouseDown={(e) => {
+                          if (!win.isMaximized) {
+                            startDrag(win.id, e);
+                          }
+                        }}
+                      >
+                        <div className="window-traffic-lights" style={{ display: 'flex', gap: '8px' }}>
+                          <button className="traffic-dot close" onClick={(e) => closeWindow(win.id, e)} />
+                          <button className="traffic-dot minimize" onClick={(e) => toggleMinimize(win.id, e)} />
+                          <button className="traffic-dot zoom" onClick={(e) => toggleMaximize(win.id, e)} />
+                        </div>
+                      </div>
+                      <div className="finder-sidebar-content">
+                        {renderTreeSidebar(win)}
+                      </div>
+                    </div>
+
+                    {/* Split Main pane */}
+                    <div className="finder-main">
+                      {/* Toolbar */}
+                      <div 
+                        className="finder-toolbar"
+                        onMouseDown={(e) => {
+                          if (!win.isMaximized && !e.target.closest('button') && !e.target.closest('input')) {
+                            startDrag(win.id, e);
+                          }
+                        }}
+                      >
+                        <div className="finder-toolbar-left">
+                          <div className="finder-toolbar-nav">
+                            <button 
+                              className="finder-toolbar-nav-btn" 
+                              onClick={() => handleBackClick(win)}
+                              disabled={!win.history || win.historyIndex <= 0}
+                            >
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                            </button>
+                            <button 
+                              className="finder-toolbar-nav-btn" 
+                              onClick={() => handleForwardClick(win)}
+                              disabled={!win.history || win.historyIndex >= win.history.length - 1}
+                            >
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                          </div>
+                          <div className="finder-toolbar-title">{win.title}</div>
+                        </div>
+
+
+
+                        <div className="finder-toolbar-right" style={{ display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
+                          <img src="/macos/icons/Header.svg" alt="Toolbar controls" style={{ height: '28px', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }} />
+                        </div>
+                      </div>
+
+                      {/* Window Content */}
+                      <div className="finder-content-body finder-window-content-light">
+                        {renderWindowContent(win)}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
                     <div 
-                      className="finder-sidebar-header"
+                      className="mac-window-titlebar"
                       onMouseDown={(e) => {
                         if (!win.isMaximized) {
                           startDrag(win.id, e);
                         }
                       }}
                     >
-                      <div className="window-traffic-lights" style={{ display: 'flex', gap: '8px' }}>
+                      <div className="window-traffic-lights">
                         <button className="traffic-dot close" onClick={(e) => closeWindow(win.id, e)} />
                         <button className="traffic-dot minimize" onClick={(e) => toggleMinimize(win.id, e)} />
                         <button className="traffic-dot zoom" onClick={(e) => toggleMaximize(win.id, e)} />
                       </div>
-                    </div>
-                    <div className="finder-sidebar-content">
-                      {renderTreeSidebar(win)}
-                    </div>
-                  </div>
-
-                  {/* Split Main pane */}
-                  <div className="finder-main">
-                    {/* Toolbar */}
-                    <div 
-                      className="finder-toolbar"
-                      onMouseDown={(e) => {
-                        if (!win.isMaximized && !e.target.closest('button') && !e.target.closest('input')) {
-                          startDrag(win.id, e);
-                        }
-                      }}
-                    >
-                      <div className="finder-toolbar-left">
-                        <div className="finder-toolbar-nav">
-                          <button 
-                            className="finder-toolbar-nav-btn" 
-                            onClick={() => handleBackClick(win)}
-                            disabled={!win.history || win.historyIndex <= 0}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                          </button>
-                          <button 
-                            className="finder-toolbar-nav-btn" 
-                            onClick={() => handleForwardClick(win)}
-                            disabled={!win.history || win.historyIndex >= win.history.length - 1}
-                          >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                          </button>
-                        </div>
-                        <div className="finder-toolbar-title">{win.title}</div>
-                      </div>
-
-
-
-                      <div className="finder-toolbar-right" style={{ display: 'flex', alignItems: 'center', paddingRight: '8px' }}>
-                        <img src="/macos/icons/Header.svg" alt="Toolbar controls" style={{ height: '28px', objectFit: 'contain', pointerEvents: 'none', userSelect: 'none' }} />
-                      </div>
+                      <span className="window-title-text">{win.title}</span>
                     </div>
 
-                    {/* Window Content */}
-                    <div className="finder-content-body finder-window-content-light">
+                    <div className="mac-window-content" style={win.contentType === 'pdf' || win.contentType === 'image' ? { padding: 0, overflow: 'hidden' } : {}}>
                       {renderWindowContent(win)}
                     </div>
-                  </div>
-                </div>
-              ) : (
-                <>
+                  </>
+                )}
+                {/* Universal Window Resize Handle */}
+                {!win.isMaximized && (
                   <div 
-                    className="mac-window-titlebar"
-                    onMouseDown={(e) => {
-                      if (!win.isMaximized) {
-                        startDrag(win.id, e);
-                      }
-                    }}
-                  >
-                    <div className="window-traffic-lights">
-                      <button className="traffic-dot close" onClick={(e) => closeWindow(win.id, e)} />
-                      <button className="traffic-dot minimize" onClick={(e) => toggleMinimize(win.id, e)} />
-                      <button className="traffic-dot zoom" onClick={(e) => toggleMaximize(win.id, e)} />
-                    </div>
-                    <span className="window-title-text">{win.title}</span>
-                  </div>
-
-                  <div className="mac-window-content" style={win.contentType === 'pdf' || win.contentType === 'image' ? { padding: 0, overflow: 'hidden' } : {}}>
-                    {renderWindowContent(win)}
-                  </div>
-                </>
-              )}
-              {/* Universal Window Resize Handle */}
-              {!win.isMaximized && (
-                <div 
-                  className="window-resize-handle"
-                  onMouseDown={(e) => startResize(win.id, e)}
-                />
-              )}
-            </div>
-          );
-        })}
+                    className="window-resize-handle"
+                    onMouseDown={(e) => startResize(win.id, e)}
+                  />
+                )}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       {/* Floating macOS Dock */}

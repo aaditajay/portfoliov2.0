@@ -10,6 +10,7 @@ import {
   Lock, 
   LogOut 
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const ControlCenterIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.9 }}>
@@ -244,61 +245,67 @@ const MenuDropdown = ({ isOpen, onClose, items, position, onAction }) => {
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      ref={dropdownRef}
-      className="mac-menu-dropdown"
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`
-      }}
-    >
-      <div className="mac-menu-dropdown-inner">
-        {items.map((item, index) => {
-          if (item.type === 'separator') {
-            return (
-              <div
-                key={index}
-                className="mac-menu-separator"
-              />
-            );
-          }
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={dropdownRef}
+          className="mac-menu-dropdown"
+          initial={{ opacity: 0, y: -8, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -4, scale: 0.98 }}
+          transition={{ duration: 0.16, ease: [0.25, 1, 0.5, 1] }}
+          style={{
+            left: `${position.x}px`,
+            top: `${position.y}px`
+          }}
+        >
+          <div className="mac-menu-dropdown-inner">
+            {items.map((item, index) => {
+              if (item.type === 'separator') {
+                return (
+                  <div
+                    key={index}
+                    className="mac-menu-separator"
+                  />
+                );
+              }
 
-          return (
-            <div
-              key={index}
-              className="mac-menu-dropdown-item"
-              onClick={() => {
-                if (item.action) {
-                  onAction?.(item.action);
-                }
-                onClose();
-              }}
-            >
-              <span style={{ display: 'flex', alignItems: 'center' }}>
-                {item.icon && renderItemIcon(item.icon)}
-                <span>{item.label}</span>
-              </span>
-              
-              <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                {item.shortcut && (
-                  <span className="mac-shortcut">
-                    {item.shortcut}
+              return (
+                <div
+                  key={index}
+                  className="mac-menu-dropdown-item"
+                  onClick={() => {
+                    if (item.action) {
+                      onAction?.(item.action);
+                    }
+                    onClose();
+                  }}
+                >
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    {item.icon && renderItemIcon(item.icon)}
+                    <span>{item.label}</span>
                   </span>
-                )}
-                {item.hasSubmenu && (
-                  <span className="mac-arrow">
-                    ▶
+                  
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {item.shortcut && (
+                      <span className="mac-shortcut">
+                        {item.shortcut}
+                      </span>
+                    )}
+                    {item.hasSubmenu && (
+                      <span className="mac-arrow">
+                        ▶
+                      </span>
+                    )}
                   </span>
-                )}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
