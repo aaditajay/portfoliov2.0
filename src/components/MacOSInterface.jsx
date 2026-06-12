@@ -1070,6 +1070,15 @@ export default function MacOSInterface({ onExit }) {
           </div>
         );
 
+      case 'pdf':
+        return (
+          <iframe 
+            src={win.pdfUrl} 
+            style={{ width: '100%', height: '100%', border: 'none', background: '#ffffff' }} 
+            title={win.title}
+          />
+        );
+
       default:
         return <div>Unknown layout.</div>;
     }
@@ -1165,7 +1174,8 @@ export default function MacOSInterface({ onExit }) {
     { id: 'expertise', title: 'Expertise' },
     { id: 'experience', title: 'Experience' },
     { id: 'projects', title: 'Projects' },
-    { id: 'contact', title: 'Contact' }
+    { id: 'contact', title: 'Contact' },
+    { id: 'resume', title: 'Resume', isFile: true, icon: '/macos/icons/resume.png' }
   ];
 
   // Dock items configuration
@@ -1276,10 +1286,24 @@ export default function MacOSInterface({ onExit }) {
           <div 
             key={folder.id}
             className="desktop-folder-item"
-            onDoubleClick={() => handleFolderClick(folder.id, folder.title === 'About' ? 'About Me' : folder.title)}
+            onDoubleClick={() => {
+              if (folder.isFile) {
+                openWindow({
+                  id: folder.id,
+                  appName: 'Preview',
+                  title: `${folder.title}.pdf`,
+                  contentType: 'pdf',
+                  pdfUrl: '/assets/Resume.pdf',
+                  w: 800,
+                  h: 600
+                });
+              } else {
+                handleFolderClick(folder.id, folder.title === 'About' ? 'About Me' : folder.title);
+              }
+            }}
           >
             <div className="desktop-folder-icon">
-              <img src="/macos/icons/Folder.svg" alt="Folder" style={{ width: '100%', height: '100%' }} />
+              <img src={folder.icon || "/macos/icons/Folder.svg"} alt={folder.title} style={{ width: '100%', height: '100%' }} />
             </div>
             <span className="desktop-folder-label">{folder.title}</span>
           </div>
@@ -1399,7 +1423,7 @@ export default function MacOSInterface({ onExit }) {
                     <span className="window-title-text">{win.title}</span>
                   </div>
 
-                  <div className="mac-window-content">
+                  <div className="mac-window-content" style={win.contentType === 'pdf' || win.contentType === 'image' ? { padding: 0, overflow: 'hidden' } : {}}>
                     {renderWindowContent(win)}
                   </div>
                 </>
