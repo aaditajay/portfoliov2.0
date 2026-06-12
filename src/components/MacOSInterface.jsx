@@ -1293,7 +1293,7 @@ export default function MacOSInterface({ onExit }) {
                   appName: 'Preview',
                   title: `${folder.title}.pdf`,
                   contentType: 'pdf',
-                  pdfUrl: '/assets/Resume.pdf',
+                  pdfUrl: '/assets/resume.pdf',
                   w: 800,
                   h: 600
                 });
