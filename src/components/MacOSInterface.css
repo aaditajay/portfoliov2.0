@@ -820,9 +820,10 @@
 }
 
 .finder-window-content-light .finder-item-label {
+  font-family: 'Gilroy-Medium', var(--font-sans) !important;
   font-size: 12px !important; /* Sonoma exact file text size */
   color: #1c1c1e;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -833,6 +834,12 @@
   word-wrap: break-word;
   word-break: break-word;
   padding: 1px 4px;
+}
+
+.finder-window-content-light .finder-item-label-text {
+  border-radius: 5px;
+  padding: 1px 6px;
+  display: inline-block;
 }
 
 /* Tree Sidebar UI Sonoma Styling */
@@ -976,34 +983,27 @@
   color: #333333;
 }
 
-/* Selected grid item overlays */
 .finder-window-content-light .finder-item.selected {
   background: transparent !important;
 }
 
 .finder-window-content-light .finder-item.selected .finder-item-label {
-  background-color: #007aff !important; /* macOS Sonoma blue highlight selection */
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.finder-window-content-light .finder-item.selected .finder-item-label-text {
+  background-color: #007aff !important; /* macOS Sonoma solid blue selection */
   color: #ffffff !important;
-  border-radius: 4.5px;
-  padding: 1px 6px;
 }
 
 .finder-window-content-light .finder-item.selected .finder-item-icon {
   filter: brightness(0.92) contrast(1.03);
 }
 
-.finder-window-content-light .finder-item.selected .finder-item-icon::after {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: rgba(0, 122, 255, 0.12);
-  border: 1.5px solid rgba(0, 122, 255, 0.35);
-  border-radius: 6px;
-  pointer-events: none;
-  box-sizing: border-box;
+.finder-window-content-light .finder-item.selected .finder-item-icon-wrapper {
+  background-color: rgba(0, 0, 0, 0.08) !important; /* translucent box on icon */
+  border-radius: 8px !important;
 }
 
 /* Status bar */

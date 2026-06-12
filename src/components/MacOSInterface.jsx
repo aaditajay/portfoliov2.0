@@ -788,7 +788,9 @@ export default function MacOSInterface({ onExit }) {
                       </div>
 
                     </div>
-                    <span className="finder-item-label">{item.name}</span>
+                    <span className="finder-item-label">
+                      <span className="finder-item-label-text">{item.name}</span>
+                    </span>
                   </div>
                 );
               })}
