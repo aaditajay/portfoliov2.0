@@ -46,13 +46,19 @@ const SiriIcon = () => (
   </svg>
 );
 
-const BatteryIcon = () => (
-  <svg width="22" height="11" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ opacity: 0.9, display: 'inline-block', verticalAlign: 'middle' }}>
-    <rect x="1" y="1" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M22 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    <rect x="3" y="3" width="13" height="6" rx="1" fill="currentColor" stroke="none" />
-  </svg>
-);
+const BatteryIcon = ({ batteryLevel = 73, isCharging = false }) => {
+  const fillWidth = Math.max(1, Math.round(13 * (Math.min(100, Math.max(0, batteryLevel)) / 100)));
+  return (
+    <svg width="22" height="11" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="1.5" style={{ opacity: 0.9, display: 'inline-block', verticalAlign: 'middle', position: 'relative' }}>
+      <rect x="1" y="1" width="20" height="10" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M22 4v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <rect x="3" y="3" width={fillWidth} height="6" rx="1" fill={isCharging ? "#30d158" : (batteryLevel < 20 ? "#ff453a" : "currentColor")} stroke="none" />
+      {isCharging && (
+        <path d="M12 2.5 l-2.5 3.5 h3.5 l-2.5 3.5" stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ transform: 'scale(0.85)', transformOrigin: 'center' }} />
+      )}
+    </svg>
+  );
+};
 
 const AppStoreIcon = ({ className, style, size = 14 }) => (
   <svg 
@@ -313,7 +319,9 @@ const MacOSMenuBar = ({
   appName = 'Finder',
   menus = DEFAULT_MENUS,
   onMenuAction,
-  className = ''
+  className = '',
+  batteryLevel = 73,
+  isCharging = false
 }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [activeMenu, setActiveMenu] = useState(null);
@@ -473,8 +481,8 @@ const MacOSMenuBar = ({
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span style={{ fontSize: '12.5px', opacity: 0.9 }}>73%</span>
-            <BatteryIcon />
+            <span style={{ fontSize: '12.5px', opacity: 0.9 }}>{batteryLevel}%</span>
+            <BatteryIcon batteryLevel={batteryLevel} isCharging={isCharging} />
           </div>
 
           <ControlCenterIcon />

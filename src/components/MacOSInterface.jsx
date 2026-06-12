@@ -491,6 +491,32 @@ export default function MacOSInterface({ onExit }) {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [transitioningLayoutIds, setTransitioningLayoutIds] = useState(new Set());
 
+  // Dynamic Battery status state
+  const [batteryLevel, setBatteryLevel] = useState(73);
+  const [isCharging, setIsCharging] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && navigator.getBattery) {
+      navigator.getBattery().then(battery => {
+        setBatteryLevel(Math.round(battery.level * 100));
+        setIsCharging(battery.charging);
+
+        const onLevelChange = () => setBatteryLevel(Math.round(battery.level * 100));
+        const onChargingChange = () => setIsCharging(battery.charging);
+
+        battery.addEventListener('levelchange', onLevelChange);
+        battery.addEventListener('chargingchange', onChargingChange);
+
+        return () => {
+          battery.removeEventListener('levelchange', onLevelChange);
+          battery.removeEventListener('chargingchange', onChargingChange);
+        };
+      }).catch(err => {
+        console.warn('Error reading battery status:', err);
+      });
+    }
+  }, []);
+
   // 1. Drag handlers mouse effect
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -1263,6 +1289,8 @@ export default function MacOSInterface({ onExit }) {
       <MacOSMenuBar 
         appName={activeAppName} 
         onMenuAction={handleMenuAction}
+        batteryLevel={batteryLevel}
+        isCharging={isCharging}
       />
 
       {/* Battery Percentage Widget (Top-Left) */}
@@ -1307,16 +1335,16 @@ export default function MacOSInterface({ onExit }) {
         <svg width="48" height="48" viewBox="0 0 60 60" style={{ display: 'block', position: 'relative', zIndex: 10, margin: '-2px 0 0 -2px' }}>
           {/* Background circle */}
           <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255, 255, 255, 0.15)" strokeWidth="4.5" />
-          {/* Green battery circle representing 73% progress */}
+          {/* Green battery circle representing dynamic progress */}
           <circle 
             cx="30" 
             cy="30" 
             r="24" 
             fill="none" 
-            stroke="#30d158" 
+            stroke={isCharging ? "#30d158" : (batteryLevel < 20 ? "#ff453a" : "#30d158")}
             strokeWidth="4.5" 
             strokeDasharray="150.8" 
-            strokeDashoffset="40.7" 
+            strokeDashoffset={(150.8 * (1 - batteryLevel / 100)).toFixed(1)} 
             strokeLinecap="round" 
             transform="rotate(-90 30 30)" 
           />
@@ -1330,7 +1358,14 @@ export default function MacOSInterface({ onExit }) {
             strokeLinejoin="round" 
           />
         </svg>
-        <span style={{ margin: 0, zIndex: 10, color: '#ffffff', fontSize: '2.2rem', fontWeight: '500', lineHeight: 1, fontFamily: 'var(--font-sans)' }}>73%</span>
+        <span style={{ margin: 0, zIndex: 10, color: '#ffffff', fontSize: '2.2rem', fontWeight: '500', lineHeight: 1, fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {batteryLevel}%
+          {isCharging && (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#30d158" stroke="#30d158" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+          )}
+        </span>
       </div>
 
       {/* Horizontal Folders Grid (Centered Upper Desktop) */}
