@@ -210,31 +210,65 @@ const MacOSDock = ({
       className={className}
       style={{
         width: `${contentWidth + padding * 2}px`,
-        background: 'linear-gradient(180deg, rgba(30, 30, 35, 0.75) 0%, rgba(25, 25, 30, 0.7) 50%, rgba(15, 15, 20, 0.65) 50.5%, rgba(20, 20, 25, 0.68) 100%)',
         borderRadius: `${Math.max(12, baseIconSize * 0.4)}px`,
         border: '1.5px solid rgba(255, 255, 255, 0.35)',
-        backdropFilter: 'blur(30px)',
-        WebkitBackdropFilter: 'blur(30px)',
-        boxShadow: `
-          0 ${Math.max(6, baseIconSize * 0.15)}px ${Math.max(24, baseIconSize * 0.5)}px rgba(0, 0, 0, 0.35),
-          inset 0 1px 1px rgba(255, 255, 255, 0.45),
-          inset 0 ${Math.max(8, baseIconSize * 0.15)}px ${Math.max(16, baseIconSize * 0.3)}px rgba(255, 255, 255, 0.12),
-          inset 0 ${Math.max(-8, -baseIconSize * 0.15)}px ${Math.max(16, baseIconSize * 0.3)}px rgba(0, 0, 0, 0.15)
-        `,
         padding: `${padding}px`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        position: 'relative',
+        background: 'transparent'
       }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Volumetric Liquid Shadow Overlay */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: `${Math.max(12, baseIconSize * 0.4)}px`,
+          boxShadow: `
+            0 0 8px rgba(0,0,0,0.03),
+            0 2px 6px rgba(0,0,0,0.08),
+            inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+            inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+            inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+            inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+            inset 0 0 6px 6px rgba(255,255,255,0.12),
+            inset 0 0 2px 2px rgba(255,255,255,0.06),
+            0 0 12px rgba(0,0,0,0.15)
+          `,
+          zIndex: 0,
+          pointerEvents: 'none'
+        }}
+      />
+      {/* Backdrop Filter Distortion Layer */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: `${Math.max(12, baseIconSize * 0.4)}px`,
+          background: 'linear-gradient(180deg, rgba(30, 30, 35, 0.75) 0%, rgba(25, 25, 30, 0.7) 50%, rgba(15, 15, 20, 0.65) 50.5%, rgba(20, 20, 25, 0.68) 100%)',
+          backdropFilter: 'url("#container-glass") blur(10px)',
+          WebkitBackdropFilter: 'url("#container-glass") blur(10px)',
+          zIndex: -1,
+          pointerEvents: 'none'
+        }}
+      />
       <div 
         style={{
           height: `${baseIconSize}px`,
           width: `${contentWidth}px`,
-          position: 'relative'
+          position: 'relative',
+          zIndex: 10
         }}
       >
         {apps.map((app, index) => {

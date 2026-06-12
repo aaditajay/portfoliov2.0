@@ -9,6 +9,50 @@ import {
 } from 'lucide-react';
 import { Tree, TreeItem, TreeItemLabel } from './TreeSidebar';
 
+function GlassFilter() {
+  return (
+    <svg className="hidden" style={{ display: 'none' }}>
+      <defs>
+        <filter
+          id="container-glass"
+          x="0%"
+          y="0%"
+          width="100%"
+          height="100%"
+          colorInterpolationFilters="sRGB"
+        >
+          {/* Generate turbulent noise for distortion */}
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.05 0.05"
+            numOctaves="1"
+            seed="1"
+            result="turbulence"
+          />
+
+          {/* Blur the turbulence pattern slightly */}
+          <feGaussianBlur in="turbulence" stdDeviation="2" result="blurredNoise" />
+
+          {/* Displace the source graphic with the noise */}
+          <feDisplacementMap
+            in="SourceGraphic"
+            in2="blurredNoise"
+            scale="70"
+            xChannelSelector="R"
+            yChannelSelector="B"
+            result="displaced"
+          />
+
+          {/* Apply overall blur on the final result */}
+          <feGaussianBlur in="displaced" stdDeviation="4" result="finalBlur" />
+
+          {/* Output the result */}
+          <feComposite in="finalBlur" in2="finalBlur" operator="over" />
+        </filter>
+      </defs>
+    </svg>
+  );
+}
 
 // SVG Icons for Finder Folder Contents
 const FileTextIcon = () => (
@@ -1159,31 +1203,74 @@ export default function MacOSInterface({ onExit }) {
       />
 
       {/* Battery Percentage Widget (Top-Left) */}
-      <div className="battery-widget">
-        <svg width="46" height="46" viewBox="0 0 60 60" style={{ display: 'block' }}>
-          {/* Background circle */}
-          <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="4.5" />
-          {/* Green battery circle representing 87% progress */}
-          <circle 
-            cx="30" 
-            cy="30" 
-            r="24" 
-            fill="none" 
-            stroke="#34d399" 
-            strokeWidth="4.5" 
-            strokeDasharray="150.8" 
-            strokeDashoffset="19.6" 
-            strokeLinecap="round" 
-            transform="rotate(-90 30 30)" 
-          />
-          {/* Laptop vector inside circle */}
-          <path 
-            d="M21 34 L39 34 L39 23 L21 23 Z M17 35 L43 35 L43 37 L17 37 Z" 
-            fill="white" 
-            opacity="0.9" 
-          />
-        </svg>
-        <span className="battery-percentage">87%</span>
+      <div className="battery-widget" style={{ position: 'relative' }}>
+        {/* Volumetric Liquid Shadow Overlay */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '28px',
+            boxShadow: `
+              0 0 8px rgba(0,0,0,0.03),
+              0 2px 6px rgba(0,0,0,0.08),
+              inset 3px 3px 0.5px -3.5px rgba(255,255,255,0.09),
+              inset -3px -3px 0.5px -3.5px rgba(255,255,255,0.85),
+              inset 1px 1px 1px -0.5px rgba(255,255,255,0.6),
+              inset -1px -1px 1px -0.5px rgba(255,255,255,0.6),
+              inset 0 0 6px 6px rgba(255,255,255,0.12),
+              inset 0 0 2px 2px rgba(255,255,255,0.06),
+              0 0 12px rgba(0,0,0,0.15)
+            `,
+            zIndex: 0,
+            pointerEvents: 'none'
+          }}
+        />
+        {/* Backdrop Filter Distortion Layer */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            borderRadius: '28px',
+            background: 'linear-gradient(135deg, rgba(30, 30, 35, 0.75) 0%, rgba(25, 25, 30, 0.7) 50%, rgba(15, 15, 20, 0.65) 50.5%, rgba(20, 20, 25, 0.68) 100%)',
+            backdropFilter: 'url("#container-glass") blur(10px)',
+            WebkitBackdropFilter: 'url("#container-glass") blur(10px)',
+            zIndex: -1,
+            pointerEvents: 'none'
+          }}
+        />
+        {/* Content Wrapper */}
+        <div style={{ position: 'relative', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="46" height="46" viewBox="0 0 60 60" style={{ display: 'block', position: 'relative', zIndex: 10 }}>
+            {/* Background circle */}
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255, 255, 255, 0.12)" strokeWidth="4.5" />
+            {/* Green battery circle representing 87% progress */}
+            <circle 
+              cx="30" 
+              cy="30" 
+              r="24" 
+              fill="none" 
+              stroke="#34d399" 
+              strokeWidth="4.5" 
+              strokeDasharray="150.8" 
+              strokeDashoffset="19.6" 
+              strokeLinecap="round" 
+              transform="rotate(-90 30 30)" 
+            />
+            {/* Laptop vector inside circle */}
+            <path 
+              d="M21 34 L39 34 L39 23 L21 23 Z M17 35 L43 35 L43 37 L17 37 Z" 
+              fill="white" 
+              opacity="0.9" 
+            />
+          </svg>
+          <span className="battery-percentage" style={{ margin: 0, marginTop: '8px', zIndex: 10 }}>87%</span>
+        </div>
       </div>
 
       {/* Horizontal Folders Grid (Centered Upper Desktop) */}
@@ -1340,6 +1427,7 @@ export default function MacOSInterface({ onExit }) {
           openApps={openAppIds}
         />
       </div>
+      <GlassFilter />
     </div>
   );
 }
