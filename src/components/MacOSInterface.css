@@ -508,7 +508,7 @@
 /* Finder Window Sonoma Overrides */
 .mac-window.finder-window,
 .mac-window.finder-window * {
-  font-family: 'Gilroy-Light', 'Gilroy', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif !important;
+  font-family: 'Gilroy-Medium', 'Gilroy', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif !important;
 }
 
 .mac-window.finder-window {
@@ -870,7 +870,7 @@
   padding: 5px 10px 5px calc(8px + var(--tree-padding, 0px)) !important; /* Apply indentation padding! */
   font-size: 13px !important; /* Sonoma sidebar font size */
   color: #2c2c2e;
-  font-family: 'Gilroy-Light', 'Gilroy', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Gilroy-Medium', 'Gilroy', -apple-system, BlinkMacSystemFont, sans-serif !important;
   transition: background-color 0.1s, color 0.1s;
   margin: 1.5px 8px !important;
   box-sizing: border-box;
